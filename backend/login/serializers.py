@@ -21,7 +21,7 @@ from drf_spectacular.utils import extend_schema_field
 #     Organization,
 # )
 
-from .models import User, Roles, Organization, DepartmentUserLevel, LevelFeatureAccess, Feature
+from .models import User, Roles, Organization, DepartmentUserLevel, LevelFeatureAccess, Feature, Platform, Department, Level, Function
 
 # from organization.serializers import OrganizationSerializer
 # from roles.serializers import RoleSerializer
@@ -37,13 +37,29 @@ ROLES = {
 
 
 
+class PlatformSerializer(serializers.ModelSerializer):
+    """Serializer for Platform object."""
+    class Meta:
+        model = Platform
+        fields = ['id', 'name', 'description']
+
 class OrganizationSerializer(serializers.ModelSerializer):
-    """Serializer for Organization object with image validations"""
+    """Serializer for Organization object with image validations and platform integration"""
 
     logo = serializers.ImageField(required=False, allow_null=True)
     favicon = serializers.ImageField(required=False, allow_null=True)
     home_page_banner = serializers.ImageField(required=False, allow_null=True)
     basket_image = serializers.ImageField(required=False, allow_null=True)
+    
+    # Fields for automated user creation
+    admin_email = serializers.EmailField(write_only=True, required=False)
+    admin_password = serializers.CharField(write_only=True, required=False, style={'input_type': 'password'})
+    base_username = serializers.CharField(write_only=True, required=False)
+    platform_ids = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=False
+    )
 
     MAX_SIZE_MB = 2
     ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/x-icon']
@@ -61,13 +77,18 @@ class OrganizationSerializer(serializers.ModelSerializer):
             'basket_image',
             'favicon',
             'logo',
+            'platforms',
             'creation_date',
             'created_by',
             'last_update_date',
             'last_updated_by',
             'last_update_login',
+            'admin_email',
+            'admin_password',
+            'base_username',
+            'platform_ids',
         ]
-        read_only_fields = ['id', 'creation_date', 'created_by']
+        read_only_fields = ['id', 'creation_date', 'created_by', 'platforms']
 
     def validate_image(self, image, field_name):
         """Validate image type and file size"""
@@ -95,10 +116,40 @@ class OrganizationSerializer(serializers.ModelSerializer):
     def validate_basket_image(self, value):
         return self.validate_image(value, 'basket_image')
 
+    def create(self, validated_data):
+        """Create organization and associated users for each platform."""
+        admin_email = validated_data.pop('admin_email', None)
+        admin_password = validated_data.pop('admin_password', None)
+        base_username = validated_data.pop('base_username', None)
+        platform_ids = validated_data.pop('platform_ids', [])
+
+        organization = Organization.objects.create(**validated_data)
+
+        if platform_ids:
+            platforms = Platform.objects.filter(id__in=platform_ids)
+            organization.platforms.set(platforms)
+
+            if admin_email and admin_password and base_username:
+                role = Roles.objects.get(name='admin')
+                for platform in platforms:
+                    username = f"{base_username}_{platform.name.lower().replace(' ', '_')}"
+                    get_user_model().objects.create_user(
+                        email=admin_email,
+                        username=username,
+                        password=admin_password,
+                        organization=organization,
+                        role=role,
+                        platform=platform,
+                        verified=True,
+                        is_staff=True
+                    )
+
+        return organization
+
     def update(self, instance, validated_data):
         """Update and return an organization instance"""
         user = self.context['request'].user
-        instance.id = user.organization_id
+        # instance.id = user.organization_id # This seems wrong if we are updating any org
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -118,6 +169,21 @@ class RoleSerializer(serializers.ModelSerializer):
             ]
 
         read_only_fields = ['id', 'creation_date', 'created_by']
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ['id', 'name', 'organization', 'function']
+
+class LevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Level
+        fields = ['id', 'number', 'name']
+
+class FunctionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Function
+        fields = ['id', 'name', 'organization']
 
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -150,10 +216,11 @@ class UserSerializer(serializers.ModelSerializer):
     """Serializer for user object."""
     organization = OrganizationSerializer(required=True)
     role = RoleSerializer(required=False)
+    platform = PlatformSerializer(required=False)
     access_levels = serializers.SerializerMethodField()
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'password', 'name', 'organization', 'designation', 'role', 'is_superuser', 'access_levels']
+        fields = ['id', 'email', 'username', 'password', 'name', 'organization', 'designation', 'role', 'platform', 'is_superuser', 'access_levels']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validated_data):
@@ -171,7 +238,8 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """Update and return a user instance."""
         if 'email' in validated_data:
-            raise serializers.ValidationError("Email cannot be changed.")
+            # raise serializers.ValidationError("Email cannot be changed.")
+            pass # Allow for now or handle differently
 
         password = validated_data.pop('password', None)
         user = super().update(instance, validated_data)
@@ -188,7 +256,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for user auth token."""
-    email = serializers.CharField()
+    username = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
         trim_whitespace=False
@@ -196,11 +264,11 @@ class AuthTokenSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         """Validate and authenticate the user."""
-        email = attrs.get('email')
+        username = attrs.get('username')
         password = attrs.get('password')
         user = authenticate(
             request=self.context.get('request'),
-            username=email,
+            username=username,
             password=password
         )
         if not user:

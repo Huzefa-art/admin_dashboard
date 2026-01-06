@@ -33,20 +33,26 @@ export class AddOrganizationComponent {
   baseColor: string = '#066477';
   textColor: string = '#ffffff';
 
-  ngOnInit(): void {
+  userId: any;
+  levelsList: any[] = [];
+  departmentsList: any[] = [];
+  flattenedDepartments: any[] = [];
+  platformsList: any[] = [];
+  selectedPlatformIds: number[] = [];
+  baseUsername: string = '';
 
-    //throw new Error('Method not implemented.');
+  ngOnInit(): void {
     this.GetUserInfo();
     this.getDepartments();
     this.getLevels();
+    this.getPlatforms();
   }
-
 
   GetUserInfo(): void {
     this._yourApiService.GetUserInfo().subscribe(
       (response: any) => {
         if (response && response.name) {
-          this.userName = response.name;  // Store the user's name
+          this.userName = response.name;
         }
       },
       (error: any) => {
@@ -54,9 +60,7 @@ export class AddOrganizationComponent {
       }
     );
   }
-  levelsList: any[] = [];
-  departmentsList: any[] = [];
-  flattenedDepartments: any[] = [];
+
   getDepartments() {
     this._yourApiService.getDepartments().subscribe(res => {
       this.departmentsList = res;
@@ -66,83 +70,81 @@ export class AddOrganizationComponent {
 
   flattenTreeWithIndent(tree: any[], level: number = 0): any[] {
     let flat: any[] = [];
-
     for (const node of tree) {
       flat.push({ id: node.id, name: node.name, indent: level });
-
       if (node.sub_departments?.length) {
         flat = flat.concat(this.flattenTreeWithIndent(node.sub_departments, level + 1));
       }
     }
-
     return flat;
   }
 
-  levelId: any = 1;
-  userId: any;
   getLevels() {
     this._yourApiService.getLevels().subscribe(res => {
       this.levelsList = res;
     });
   }
 
+  getPlatforms() {
+    this.auth_service.getPlatforms().subscribe(res => {
+      this.platformsList = res;
+    });
+  }
+
+  togglePlatform(platformId: number) {
+    const index = this.selectedPlatformIds.indexOf(platformId);
+    if (index > -1) {
+      this.selectedPlatformIds.splice(index, 1);
+    } else {
+      this.selectedPlatformIds.push(platformId);
+    }
+  }
 
   addUser() {
-
     const formData = new FormData();
 
-    formData.append('email', this.email);
-    formData.append('password', this.password);
+    formData.append('admin_email', this.email);
+    formData.append('admin_password', this.password);
+    formData.append('base_username', this.baseUsername);
     formData.append('name', this.nameOfUser);
 
-    // Organization info (strings)
-    formData.append('organization.name', this.organization);
-    formData.append('organization.text_color', this.textColor);
-    formData.append('organization.base_color', this.baseColor);
-    formData.append('organization.sidebar_color', this.sidebarColor);
-    formData.append('organization.title_of_browser', this.browserTitle);
+    // Organization info
+    formData.append('name', this.organization);
+    formData.append('text_color', this.textColor);
+    formData.append('base_color', this.baseColor);
+    formData.append('sidebar_color', this.sidebarColor);
+    formData.append('title_of_browser', this.browserTitle);
 
-    // Images (files)
-    if (this.logoImage) formData.append('organization.logo', this.logoImage);
-    if (this.bannerImage) formData.append('organization.home_page_banner', this.bannerImage);
-    if (this.faviconImage) formData.append('organization.favicon', this.faviconImage);
-    if (this.basketImage) formData.append('organization.basket_image', this.basketImage);
+    // Platforms
+    this.selectedPlatformIds.forEach(id => {
+      formData.append('platform_ids', id.toString());
+    });
 
-    const loginData = {
-      email: this.email,
-      password: this.password,
-      name: this.nameOfUser,
-      organization: {
-        name: this.organization,
-        text_color: this.textColor,
-        base_color: this.baseColor,
-        sidebar_color: this.sidebarColor,
-        title_of_browser: this.browserTitle,
-        logo: this.logoImage,
-        home_page_banner: this.bannerImage,
-        favicon: this.faviconImage,
-        basket_image: this.basketImage
-
-      }
-    };
-
-    formData
+    // Images
+    if (this.logoImage) formData.append('logo', this.logoImage);
+    if (this.bannerImage) formData.append('home_page_banner', this.bannerImage);
+    if (this.faviconImage) formData.append('favicon', this.faviconImage);
+    if (this.basketImage) formData.append('basket_image', this.basketImage);
 
     this.auth_service.addUserOrganization(formData).subscribe(
       (response: any) => {
         Swal.fire({
           icon: 'success',
-          title: 'Added successfully!',
-          timer: 1000,
+          title: 'Organization and Users created successfully!',
+          timer: 2000,
           showConfirmButton: false,
         });
         this.userId = response.id;
       },
       (error: any) => {
-        console.error('Error fetching user info', error);
+        console.error('Error creating organization', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.error?.detail || 'Failed to create organization',
+        });
       }
     );
-
   }
 
 

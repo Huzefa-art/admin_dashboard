@@ -28,7 +28,7 @@ export class LoginService {
       'Content-Type': 'application/json',
     });
     const requestedterms = JSON.stringify({
-      email: data.email,
+      username: data.username,
       password: data.password,
     });
 

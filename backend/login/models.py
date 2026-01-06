@@ -16,62 +16,77 @@ from django.core.exceptions import ValidationError
 class UserMananager(BaseUserManager):
     """Manager for users."""
 
-    def create_user(self, email, password=None, organization=None,
-                    package=None, role=None, is_admin=False, **extra_fields):
+    def create_user(self, email, username=None, password=None, organization=None,
+                    package=None, role=None, platform=None, is_admin=False, **extra_fields):
         """Create and save a user"""
-        if is_admin is False:
-            if not email:
-                raise ValueError("User must have an email.")
+        if not email:
+            raise ValueError("User must have an email.")
+        
+        if not username:
+            # Fallback if username is not provided, though it should be
+            username = email
 
+        if is_admin is False:
             if not organization:
                 raise ValueError("User must have an organization.")
 
             if role is None:
                 role = Roles.objects.get(name='admin')
 
-            user = self.model(email=self.normalize_email(email),
-                              organization=organization,
-                              role=role, **extra_fields)
+            user = self.model(
+                email=self.normalize_email(email),
+                username=username,
+                organization=organization,
+                role=role,
+                platform=platform,
+                **extra_fields
+            )
             user.set_password(password)
             user.save(using=self.db)
         else:
-            user = self.model(email=self.normalize_email(email),
-                              organization=organization,
-                              role=role, **extra_fields)
+            user = self.model(
+                email=self.normalize_email(email),
+                username=username,
+                organization=organization,
+                role=role,
+                platform=platform,
+                **extra_fields
+            )
             user.set_password(password)
             user.save(using=self.db)
 
         return user
 
-    def create_superuser(self, email, password, organization=None,
-                         role=None, **extra_fields):
+    def create_superuser(self, email, password, username=None, organization=None,
+                          role=None, **extra_fields):
         """Create and return new superuser"""
-        user = self.create_user(email=email, password=password,
-                                organization=organization,
-                                role=role, is_admin=True, **extra_fields)
+        if not username:
+            username = email
+            
+        user = self.create_user(
+            email=email, 
+            username=username,
+            password=password,
+            organization=organization,
+            role=role, 
+            is_admin=True, 
+            **extra_fields
+        )
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self.db)
 
         return user
 
-    # def create_user(self, email, password=None, **extra_fields):
-    #     if not email:
-    #         raise ValueError('Email must be provided.')
-    #     user = self.model(email=self.normalize_email(email), **extra_fields)
-    #     user.set_password(password)
-    #     user.save(using=self._db)
 
-    #     return user
-
-    # def create_superuser(self, email, password=None, **extra_fields):
-    #     """Create and return a new superuser."""
-    #     user = self.create_user(email, password=password)
-    #     user.is_staff = True
-    #     user.is_superuser = True
-    #     user.save(using=self._db)
-
-    #     return user
+class Platform(models.Model):
+    """Platform model to integrate different platforms."""
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(null=True, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Organization(models.Model):
@@ -86,6 +101,9 @@ class Organization(models.Model):
     basket_image = models.ImageField(upload_to='organization/baskets/', null=True, blank=True)
     favicon = models.ImageField(upload_to='organization/favicons/', null=True, blank=True)
     logo = models.ImageField(upload_to='organization/logos/', null=True, blank=True)
+    
+    # Platform integration
+    platforms = models.ManyToManyField(Platform, related_name='organizations', blank=True)
 
     # Who columns
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -128,7 +146,8 @@ class Roles(models.Model):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system."""
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     designation = models.CharField(max_length=255, default="Staff")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -141,6 +160,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.ForeignKey(
         'Roles', null=True, blank=True, on_delete=models.PROTECT
         )
+    platform = models.ForeignKey(
+        'Platform', on_delete=models.SET_NULL, null=True, blank=True, related_name='users'
+    )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
@@ -149,7 +171,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserMananager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def generate_verification_token(self):
         data_to_hash = f"{self.email}{settings.SECRET_KEY}"

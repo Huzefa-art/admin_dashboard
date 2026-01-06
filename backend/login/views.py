@@ -20,13 +20,21 @@ from .serializers import (
     AdminUserUpdateSerializer,
     ForgotPasswordRequestSerializer,
     OTPVerificationSerializer,
-    ResetPasswordSerializer
+    ResetPasswordSerializer,
+    ResetPasswordSerializer,
+    PlatformSerializer,
+    DepartmentSerializer,
+    LevelSerializer,
+    FunctionSerializer,
+    FeatureSerializer,
+    LevelFeatureAccessSerializer,
+    DepartmentUserLevelSerializer
 )
 import random
 import uuid
 from django.utils import timezone
 # from django.core.mail import send_mail
-from .models import Roles
+from .models import Roles, Platform, Organization, Department, Level, Feature, Function, LevelFeatureAccess, DepartmentUserLevel
 
 User = get_user_model()
 
@@ -193,6 +201,12 @@ class ResetPasswordView(APIView):
 
         return Response({'detail': 'Password reset successful.'}, status=200)
 
+class PlatformListView(generics.ListAPIView):
+    """List all platforms."""
+    queryset = Platform.objects.all()
+    serializer_class = PlatformSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 class AdminUsersListView(APIView):
     serializer_class = UserSerializer
     authentication_classes = [authentication.TokenAuthentication]
@@ -212,3 +226,63 @@ class AdminUsersListView(APIView):
         admin_users = User.objects.filter(role=admin_role)
         serializer = UserSerializer(admin_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DepartmentListView(generics.ListCreateAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LevelListView(generics.ListCreateAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LevelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FeatureListView(generics.ListCreateAPIView):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FeatureDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FunctionListView(generics.ListCreateAPIView):
+    queryset = Function.objects.all()
+    serializer_class = FunctionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FunctionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Function.objects.all()
+    serializer_class = FunctionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LevelFeatureAccessListView(generics.ListCreateAPIView):
+    queryset = LevelFeatureAccess.objects.all()
+    serializer_class = LevelFeatureAccessSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LevelFeatureAccessDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = LevelFeatureAccess.objects.all()
+    serializer_class = LevelFeatureAccessSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class DepartmentUserLevelListView(generics.ListCreateAPIView):
+    queryset = DepartmentUserLevel.objects.all()
+    serializer_class = DepartmentUserLevelSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class DepartmentUserLevelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DepartmentUserLevel.objects.all()
+    serializer_class = DepartmentUserLevelSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
         }
 
         const loginData = {
-            email: this.email_address,
+            username: this.email_address,
             password: this.passwordforlogin
         };
 

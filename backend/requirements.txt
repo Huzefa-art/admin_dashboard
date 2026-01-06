@@ -5,3 +5,4 @@ gunicorn
 django-cors-headers
 python-dotenv
 drf-spectacular
+Pillow

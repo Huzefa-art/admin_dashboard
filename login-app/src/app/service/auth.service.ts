@@ -5,132 +5,132 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
-    @Injectable({
-      providedIn: 'root',
-    })
-    export class AuthService {
-      private apiBaseUrlForAIDoc = environment.apiBaseUrlForAIDoc;
-      private loginUser = this.apiBaseUrlForAIDoc + 'user/token/';
-      private signupUser = this.apiBaseUrlForAIDoc + 'user/create/';
-      private addAPIKey =
-        this.apiBaseUrlForAIDoc + 'AI_Doc_Features/add-api-key/';
-      private addAPIKeyURL = this.apiBaseUrlForAIDoc + 'AI_Doc_Features/add-api-key/';
-      // private loginUser = "/api/user/token/";
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private apiBaseUrlForAIDoc = environment.apiBaseUrlForAIDoc;
+  private loginUser = this.apiBaseUrlForAIDoc + 'user/token/';
+  private signupUser = this.apiBaseUrlForAIDoc + 'user/create/';
+  private addAPIKey =
+    this.apiBaseUrlForAIDoc + 'AI_Doc_Features/add-api-key/';
+  private addAPIKeyURL = this.apiBaseUrlForAIDoc + 'AI_Doc_Features/add-api-key/';
+  // private loginUser = "/api/user/token/";
 
-      private TOKEN_KEY = 'authToken';
-      private USER_KEY = 'userInfo';
+  private TOKEN_KEY = 'authToken';
+  private USER_KEY = 'userInfo';
 
-      private accessToken: string | null = null;
-      public currentUser$ = new BehaviorSubject<any>(null);
+  private accessToken: string | null = null;
+  public currentUser$ = new BehaviorSubject<any>(null);
 
-      constructor(private router: Router, private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private router: Router, private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
 
-        // ---------------- LOGIN API ----------------
-      loginApi(data: any) {
-        const myHeaders = new HttpHeaders({
-          'Content-Type': 'application/json',
-        });
-        const requestedterms = JSON.stringify({
-          email: data.email,
-          password: data.password,
-        });
+  // ---------------- LOGIN API ----------------
+  loginApi(data: any) {
+    const myHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const requestedterms = JSON.stringify({
+      email: data.email,
+      password: data.password,
+    });
 
-        return this.http.post<any>(this.loginUser, requestedterms, {
-          headers: myHeaders,
-        });
-      }
+    return this.http.post<any>(this.loginUser, requestedterms, {
+      headers: myHeaders,
+    });
+  }
 
-        // ---------------- SAVE TOKEN SECURELY ----------------
-      saveLoginSession(token: string, userInfo: any) {
-      // localStorage.setItem(this.TOKEN_KEY, token);
-      // localStorage.setItem(this.USER_KEY, JSON.stringify(userInfo));
+  // ---------------- SAVE TOKEN SECURELY ----------------
+  saveLoginSession(token: string, userInfo: any) {
+    // localStorage.setItem(this.TOKEN_KEY, token);
+    // localStorage.setItem(this.USER_KEY, JSON.stringify(userInfo));
 
-      this.accessToken = token;
-      this.currentUser$.next(userInfo);
-      localStorage.setItem(this.TOKEN_KEY, token);
-      localStorage.setItem(this.USER_KEY, JSON.stringify(userInfo));
-      }
+    this.accessToken = token;
+    this.currentUser$.next(userInfo);
+    localStorage.setItem(this.TOKEN_KEY, token);
+    localStorage.setItem(this.USER_KEY, JSON.stringify(userInfo));
+  }
 
-        // ---------------- GETTERS ----------------
-      getToken(): string | null {
-           if (isPlatformBrowser(this.platformId)) {
-             return this.accessToken || localStorage.getItem(this.TOKEN_KEY);
-           }
-          return null;
-      }
-
-
-
-      //old code
-      // getUserInfo(): any {
-      // return (
-      //         this.currentUser ||
-      //         JSON.parse(localStorage.getItem('userInfo') || '{}')
-      // );
-      // }
-
-      getUserInfo(): any {
-      return (
-             this.currentUser$.value ||
-             JSON.parse(localStorage.getItem(this.USER_KEY) || 'null')
-      );
-      }
-
-      getUserRole(): string | null {
-        const user = this.getUserInfo();
-        return user?.role?.name ?? null;
-      }
-
-        // ---------------- LOGOUT (FULL CLEAN) ----------------
-
-    // logOut(): void {
-    //   if (this.isLocalStorageAvailable()) {
-    //     localStorage.removeItem(this.fakeToken);
-    //     localStorage.removeItem('user');
-    //     localStorage.removeItem(this.userKey);
-
-    //     localStorage.removeItem('is_superuser'); // Clear Super Admin flag
-    //     localStorage.removeItem('designation'); // Clear designation
-    //     localStorage.removeItem('email'); // Clear Super Admin email
-
-    //     this.router.navigate(['/login']);
-    //   }
-    // }
-
-      logOut() {
-      // clear in-memory token
+  // ---------------- GETTERS ----------------
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return this.accessToken || localStorage.getItem(this.TOKEN_KEY);
+    }
+    return null;
+  }
 
 
-      // remove anything sensitive from localStorage
 
-      this.accessToken = null;
-      this.currentUser$.next(null);
+  //old code
+  // getUserInfo(): any {
+  // return (
+  //         this.currentUser ||
+  //         JSON.parse(localStorage.getItem('userInfo') || '{}')
+  // );
+  // }
 
-      localStorage.removeItem(this.TOKEN_KEY);
-      localStorage.removeItem(this.USER_KEY);
-      localStorage.removeItem('userInfo');
-      localStorage.removeItem('user_info');
-      localStorage.removeItem('user');
-      localStorage.removeItem('designation'); // Clear designation
+  getUserInfo(): any {
+    return (
+      this.currentUser$.value ||
+      JSON.parse(localStorage.getItem(this.USER_KEY) || 'null')
+    );
+  }
 
-      localStorage.removeItem('email'); // Clear Super Admin email
-      localStorage.removeItem('rememberedEmail');
-      localStorage.removeItem('is_superuser');
-      localStorage.removeItem('rememberMe');
-      // keep only non-sensitive preferences if you want:
-      this.router.navigate(['/login']);
-      }
+  getUserRole(): string | null {
+    const user = this.getUserInfo();
+    return user?.role?.name ?? null;
+  }
 
-        // ---------------- ADD API KEY ----------------
-        addApi(data: any) {
+  // ---------------- LOGOUT (FULL CLEAN) ----------------
+
+  // logOut(): void {
+  //   if (this.isLocalStorageAvailable()) {
+  //     localStorage.removeItem(this.fakeToken);
+  //     localStorage.removeItem('user');
+  //     localStorage.removeItem(this.userKey);
+
+  //     localStorage.removeItem('is_superuser'); // Clear Super Admin flag
+  //     localStorage.removeItem('designation'); // Clear designation
+  //     localStorage.removeItem('email'); // Clear Super Admin email
+
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
+
+  logOut() {
+    // clear in-memory token
+
+
+    // remove anything sensitive from localStorage
+
+    this.accessToken = null;
+    this.currentUser$.next(null);
+
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_KEY);
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('user_info');
+    localStorage.removeItem('user');
+    localStorage.removeItem('designation'); // Clear designation
+
+    localStorage.removeItem('email'); // Clear Super Admin email
+    localStorage.removeItem('rememberedEmail');
+    localStorage.removeItem('is_superuser');
+    localStorage.removeItem('rememberMe');
+    // keep only non-sensitive preferences if you want:
+    this.router.navigate(['/login']);
+  }
+
+  // ---------------- ADD API KEY ----------------
+  addApi(data: any) {
     const token = this.getToken();
 
-        const requestedterms = JSON.stringify({
-          engine_name: data.engine,
-          api_key: data.api,
-          is_active: data.is_active,
-          created_by: data.created_by
-        });
+    const requestedterms = JSON.stringify({
+      engine_name: data.engine,
+      api_key: data.api,
+      is_active: data.is_active,
+      created_by: data.created_by
+    });
 
     return this.http.post<any>(this.addAPIKeyURL, requestedterms, {
       headers: new HttpHeaders({
@@ -140,60 +140,63 @@ import { isPlatformBrowser } from '@angular/common';
     });
   }
 
-    isLoggedIn(): boolean {
+  isLoggedIn(): boolean {
     return !!this.getToken();  // ensures new tab works
-    }
+  }
 
 
-      signUpApi(data: any) {
-        const myHeaders = new HttpHeaders({
-          'Content-Type': 'application/json',
-        });
-        const requestedterms = JSON.stringify({
-          email: data.email,
-          password: data.password,
-          name: data.name,
-          organization: data.organization,
-        });
-        return this.http.post<any>(this.signupUser, requestedterms, {
-          headers: myHeaders,
-        });
-      }
+  signUpApi(data: any) {
+    const myHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const requestedterms = JSON.stringify({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      organization: data.organization,
+    });
+    return this.http.post<any>(this.signupUser, requestedterms, {
+      headers: myHeaders,
+    });
+  }
 
-      addUserOrganization(data: any) {
-        const myHeaders = new HttpHeaders({
-          'Content-Type': 'application/json',
-        });
-        const requestedterms = JSON.stringify({
-          email: data.email,
-          password: data.password,
-          name: data.name,
-          organization: data.organization,
-        });
-        return this.http.post<any>(this.signupUser, requestedterms, {
-          headers: myHeaders,
-        });
-      }
+  getPlatforms(): Observable<any> {
+    const token = this.getToken();
+    return this.http.get<any>(this.apiBaseUrlForAIDoc + 'user/platforms/', {
+      headers: new HttpHeaders({
+        Authorization: `Token ${token}`
+      })
+    });
+  }
 
-      // addUserOrganization(data: any): Observable<any> {
+  addUserOrganization(data: FormData) {
+    const token = this.getToken();
+    return this.http.post<any>(this.signupUser, data, {
+      headers: new HttpHeaders({
+        Authorization: `Token ${token}`
+      })
+    });
+  }
 
-      //       const requestedterms = JSON.stringify({
-      //     email: data.email,
-      //     password: data.password,
-      //     name: data.name,
-      //     organization: data.organization,
-      //   });
+  // addUserOrganization(data: any): Observable<any> {
 
-      //   return this.http.post<any>(this.signupUser, requestedterms);
-      // }
+  //       const requestedterms = JSON.stringify({
+  //     email: data.email,
+  //     password: data.password,
+  //     name: data.name,
+  //     organization: data.organization,
+  //   });
 
-      setUserInfo(user: any) {
-        this.currentUser$.next(user);
-      }
-      loginInMemory(token: string, userInfo: any) {
-      this.accessToken = token;              // not saved in localStorage
-      this.currentUser$.next(userInfo);
-      }
+  //   return this.http.post<any>(this.signupUser, requestedterms);
+  // }
 
-      getAccessToken() { return this.accessToken; }
-    }
+  setUserInfo(user: any) {
+    this.currentUser$.next(user);
+  }
+  loginInMemory(token: string, userInfo: any) {
+    this.accessToken = token;              // not saved in localStorage
+    this.currentUser$.next(userInfo);
+  }
+
+  getAccessToken() { return this.accessToken; }
+}

@@ -1,93 +1,125 @@
-<div class="user-form-container ">
+<div class="user-form-container">
   <h3 class="table-title">Add Organization</h3>
+  <p class="subtext">Fill in the details below to create a new organization and its associated platform users.</p>
 
-  <!-- <h2>Hi there, <span class="user-name">{{userName}}</span></h2> -->
-  <p class="subtext mb-2">Add a new organization, fill the details below</p>
-<form class="user-form" #userForm="ngForm">
-  <div class="row">
-    <div class="col-md-6 flex-row">
-    <label>Enter User Name:</label>
-    <input type="text" name="nameOfUser" placeholder="Name" [(ngModel)]="nameOfUser" class="input-field" required />
-    </div>
-<div class="col-md-6 flex-row">
- <label>Enter Name of Organization:</label>
-    <input type="text" name="orgofUser" placeholder="Organization" [(ngModel)]="organization" class="input-field" required />
-</div>
-
-  </div>
-
-  <div class="row">
-    <div class="col-md-6 flex-row">
-      <label>Enter User Email:</label>
-    <input type="email" name="email" placeholder="Email" [(ngModel)]="email" class="input-field" required />
+  <form class="user-form" #userForm="ngForm">
+    <!-- Basic Info Section -->
+    <div class="section-title">Basic Information</div>
+    <div class="row g-3">
+      <div class="col-md-6 flex-row-custom">
+        <label>User Name</label>
+        <input type="text" name="nameOfUser" placeholder="Full Name" [(ngModel)]="nameOfUser" class="input-field"
+          required />
+      </div>
+      <div class="col-md-6 flex-row-custom">
+        <label>Organization Name</label>
+        <input type="text" name="orgofUser" placeholder="Organization Name" [(ngModel)]="organization"
+          class="input-field" required />
+      </div>
     </div>
 
-    <div class="col-md-6 flex-row">
-       <label>Enter Password:</label>
-    <input type="password" name="password" placeholder="Password" [(ngModel)]="password" class="input-field" required />
+    <div class="row g-3">
+      <div class="col-md-6 flex-row-custom">
+        <label>Admin Email</label>
+        <input type="email" name="email" placeholder="admin@example.com" [(ngModel)]="email" class="input-field"
+          required />
+      </div>
+      <div class="col-md-6 flex-row-custom">
+        <label>Admin Password</label>
+        <input type="password" name="password" placeholder="••••••••" [(ngModel)]="password" class="input-field"
+          required />
+      </div>
     </div>
 
-  </div>
-  <h4>Organizaton Theme Images and Color</h4>
-
-     <!-- <div class="drop-zone-ui mt-4" (drop)="onDropSingle($event)" (dragover)="$event.preventDefault()">
-
-     </div> -->
-  <div class="input-row">
-  <label>Basket Image (max 100x100, max 10KB, PNG)</label>
-<input type="file" accept="image/png" (change)="onImageChange($event, 'basket')" />
-</div>
-
-<div class="input-row">
-  <label>Logo (max 150x80, max 20KB)</label>
-  <input type="file" accept="image/*" (change)="onImageChange($event, 'logo')" />
-</div>
-
-<div class="input-row">
-  <label>Home Page Banner (max 1000x500, max 30KB)</label>
-  <input type="file" accept="image/*" (change)="onImageChange($event, 'banner')" />
-</div>
-
-<div class="input-row">
-  <label>Favicon (should be 32x32 or 16x16, max 5KB)</label>
-  <input type="file" accept="image/x-icon, image/png" (change)="onImageChange($event, 'favicon')" />
-</div>
-
-<div class="input-row">
-  <input type="text" placeholder="Title of Browser" [(ngModel)]="browserTitle" name="browserTitle" class="input-field" />
-</div>
-
-
-
-  <!-- Color Picker Row -->
-  <div class="input-row">
-    <!-- Sidebar Color -->
-    <div class="color-group">
-      <label>Sidebar Color</label>
-      <input type="color" name="sidebarPicker" [(ngModel)]="sidebarColor" class="input-field" />
-      <input type="text" name="sidebarColor" [(ngModel)]="sidebarColor" class="input-field" placeholder="#xxxxxx" />
+    <!-- Platform Integration Section -->
+    <div class="section-title">Platform Integration</div>
+    <div class="row g-3">
+      <div class="col-md-6 flex-row-custom">
+        <label>Base Username</label>
+        <input type="text" name="baseUsername" placeholder="e.g. huzefa" [(ngModel)]="baseUsername" class="input-field"
+          required />
+        <small class="text-muted">Users will be created as baseusername_platformname</small>
+      </div>
     </div>
 
-    <!-- Base Color -->
-    <div class="color-group">
-      <label>Base Color</label>
-      <input type="color" name="baseColorPicker" [(ngModel)]="baseColor" class="input-field" />
-      <input type="text" name="baseColorText" [(ngModel)]="baseColor" class="input-field" placeholder="#xxxxxx" />
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <label class="fw-bold mb-2">Select Platforms</label>
+        <div class="platform-selection">
+          <div *ngFor="let platform of platformsList" class="platform-checkbox">
+            <input type="checkbox" [id]="'platform-' + platform.id" (change)="togglePlatform(platform.id)" />
+            <label [for]="'platform-' + platform.id">{{platform.name}}</label>
+          </div>
+          <div *ngIf="platformsList.length === 0" class="text-muted italic">
+            No platforms available. Please add platforms in the admin panel.
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="input-row">
-    <!-- Text Color -->
-    <div class="color-group">
-      <label>Text Color</label>
-      <input type="color" name="textColorPicker" [(ngModel)]="textColor" class="input-field" />
-      <input type="text" [(ngModel)]="textColor" name="textColorText" class="input-field" placeholder="#xxxxxx" />
+    <!-- Theme & Images Section -->
+    <div class="section-title">Theme & Branding</div>
+
+    <div class="image-upload-grid">
+      <div class="image-upload-item">
+        <label>Basket Image (max 10KB, PNG)</label>
+        <input type="file" accept="image/png" (change)="onImageChange($event, 'basket')"
+          class="form-control form-control-sm" />
+      </div>
+      <div class="image-upload-item">
+        <label>Logo (max 180x80, max 20KB)</label>
+        <input type="file" accept="image/*" (change)="onImageChange($event, 'logo')"
+          class="form-control form-control-sm" />
+      </div>
+      <div class="image-upload-item">
+        <label>Home Page Banner (max 2MB)</label>
+        <input type="file" accept="image/*" (change)="onImageChange($event, 'banner')"
+          class="form-control form-control-sm" />
+      </div>
+      <div class="image-upload-item">
+        <label>Favicon (ICO/PNG, max 5KB)</label>
+        <input type="file" accept="image/x-icon, image/png" (change)="onImageChange($event, 'favicon')"
+          class="form-control form-control-sm" />
+      </div>
     </div>
-  </div>
 
-  <div class="submit-container">
-    <button type="submit" class="submit-btn" (click)="addUser()">Add</button>
-  </div>
-</form>
+    <div class="row g-3 mt-2">
+      <div class="col-md-12 flex-row-custom">
+        <label>Browser Tab Title</label>
+        <input type="text" placeholder="e.g. My Dashboard" [(ngModel)]="browserTitle" name="browserTitle"
+          class="input-field" />
+      </div>
+    </div>
 
+    <!-- Color Selection -->
+    <div class="row g-3 mt-2">
+      <div class="col-md-4 color-group">
+        <label>Sidebar Color</label>
+        <div class="color-inputs">
+          <input type="color" name="sidebarPicker" [(ngModel)]="sidebarColor" class="color-picker" />
+          <input type="text" name="sidebarColor" [(ngModel)]="sidebarColor" class="input-field" placeholder="#xxxxxx" />
+        </div>
+      </div>
+      <div class="col-md-4 color-group">
+        <label>Base Color</label>
+        <div class="color-inputs">
+          <input type="color" name="baseColorPicker" [(ngModel)]="baseColor" class="color-picker" />
+          <input type="text" name="baseColorText" [(ngModel)]="baseColor" class="input-field" placeholder="#xxxxxx" />
+        </div>
+      </div>
+      <div class="col-md-4 color-group">
+        <label>Text Color</label>
+        <div class="color-inputs">
+          <input type="color" name="textColorPicker" [(ngModel)]="textColor" class="color-picker" />
+          <input type="text" [(ngModel)]="textColor" name="textColorText" class="input-field" placeholder="#xxxxxx" />
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-container">
+      <button type="submit" class="submit-btn" (click)="addUser()" [disabled]="!userForm.valid">
+        Create Organization
+      </button>
+    </div>
+  </form>
 </div>
