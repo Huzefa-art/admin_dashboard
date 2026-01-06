@@ -1,0 +1,71 @@
+/* .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .breadcrumb-item {
+    font-size: 18px;
+    color: #212121;
+  }
+
+  .breadcrumb-item a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .breadcrumb-item.active {
+    color: #6c757d;
+    pointer-events: none;
+  }
+ */
+
+ body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+  .breadcrumb {
+    display: flex; /* Use flexbox for horizontal alignment */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.breadcrumb-item {
+    margin-right: 5px; /* Space between breadcrumb items */
+}
+.breadcrumb-item{
+  display:  flex;
+  align-items: center;
+  gap: 12px;
+}
+.breadcrumb-item p{
+
+font-size: 15px;
+font-weight: 500;
+color: #474747;
+
+}
+.separatorCrumb {
+    margin: 0 5px; /* Space around the separator */
+    color: #090303; /* Color for the separator */
+}
+
+.active {
+    font-weight: bold; /* Make the last item bold */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: none !important;
+}
+
+.disabled-breadcrumb {
+  color: gray; /* Change the color */
+  pointer-events: none; /* Disable any pointer interaction */
+  text-decoration: none; /* Remove underline */
+  cursor: not-allowed; /* Show 'not allowed' cursor */
+}
+

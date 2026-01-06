@@ -1,0 +1,46 @@
+
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">A</button>
+        <div class="logo-text" *ngIf="collapsed"> AI Chat</div>
+        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+            <i class="fal fa-times close-icon"></i>
+        </button>
+        <!-- <button class="logo" (click)="toggleCollapse()">
+            <span class="thunder-icon"></span>
+        </button> -->
+        <!-- <img (click)="toggleCollapse()" src="assets/images/thunderIcon.svg" type="image/svg+xml" /> -->
+    </div>
+    <ul class="sidenav-nav">    
+     
+        <li class="sidenav-nav-item" *ngFor="let data of navData">
+            <a class="sidenav-nav-link" [routerLink]="[data.routelink]" 
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed"> {{data.label}}</span>
+            </a>
+        </li>
+
+        <div class="getProBox">
+            <img src="assets/images/image-pro-member.svg" type="image/svg+xml" />
+            <div class="pro-text-area">
+                <span class="pro-heading">Get unlimited with pro</span>
+                <span class="pro-para">Get your AI Saas Project to another level and start doing more with Horizon AI Boilerplate PRO!</span>
+                <button class="pro-button">
+                   <span class="button-pro-text">Get started with PRO</span> 
+                </button>
+            </div>
+        </div>
+        <div class="bottom-area-pro">
+    
+            <span class="dot"> {{final}}</span>
+            <span class="text-profile">{{ userName }}!</span>
+            <img class="buttonProfileCircle" src="assets/images/profileButton.svg" type="image/svg+xml" />
+        </div>
+        
+    </ul>
+
+    
+</div>

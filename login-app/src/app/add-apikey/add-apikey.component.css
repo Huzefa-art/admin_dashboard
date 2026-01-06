@@ -1,0 +1,115 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f8f8f8;
+}
+
+.user-form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+
+  /* width: 80%; */
+    /* margin: auto; */
+    font-family: Arial, sans-serif;
+    text-align: left;
+        margin-top: 25px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.user-name {
+  color: #00695c;
+}
+
+.subtext {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.table-title{
+  color: var(--gradient-bg);
+  margin-bottom: 1rem !important;
+
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 500 !important;
+font-size: 30px !important;
+line-height: 45px;
+}
+.input-field {
+  width: 100%;
+  /* padding: 12px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.half-width {
+  width: 50%;
+}
+
+
+.submit-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.submit-btn {
+  background: linear-gradient(92.77deg, #014B53 0%, #4CE0D1 136.58%);
+  color: white;
+  padding: 8px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: var(--gradient-bg-hover); /* Lighter shade for hover */
+    transform: translateY(-2px);
+}
+.custom-select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'><path d='M13.2807 5.9668L8.93404 10.3135C8.4207 10.8268 7.5807 10.8268 7.06737 10.3135L2.7207 5.9668' stroke='%239D9D9D' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.form-input {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  width: 50%;
+}
+
+

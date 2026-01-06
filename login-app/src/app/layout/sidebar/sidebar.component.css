@@ -1,0 +1,173 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+      /* for responsive sidebar */
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+    /* xxxxxxxxxxxxxxxxxxxxxxxxx */
+
+.sidenav {
+    background: var(--background-color);
+    /* background: violet; */
+    transition: all .5s ease;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+
+    height: 100vh;
+
+    /* for responsive sidebar */
+     width: 14.0625rem;
+  overflow-y: auto; /* scroll if content is too tall */
+  display: flex;
+  flex-direction: column;
+    /* xxxxxxxxxxxxxxxxxxxxxxx */
+
+    box-shadow: 0px 0.75px 1.5px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    border: 0.8px solid #E4E4E7;
+
+    .logo-container{
+
+        display: flex;
+        align-items: center;
+        padding: 0.938rem 0.938rem 0 0;
+        width: 100%;
+
+        .logo {
+            background-color: black;
+            text-align: center;
+            width: 3rem;
+            min-width: 3rem;
+            border-radius: 0.313rem;
+            padding: 0.113rem;
+            /* height: 1.875rem; */
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+
+        .logo-text{
+            margin-left: 2rem;
+            font-family: 'Inter';
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 21.78px;
+            /* text-align: left; */
+            color: var(--text-color);
+        }
+
+        .btn-close{
+            margin-left: auto;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+
+            .fa-times{
+                color: #280d0d;
+            }
+        }
+    }
+}
+
+
+.sidenav-collapsed{
+    width: 14.0625rem;
+}
+
+.sidenav-nav{
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 2.6rem);
+    /* for responsive sidebar */
+    overflow-y: auto;
+
+    .sidenav-nav-item{
+        width: 100%;
+        margin-bottom: 0.625rem;
+
+        .sidenav-nav-link{
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            text-decoration: none;
+            transition: all .3s ease;
+            border-radius: 8px;
+
+            .sidenav-link-icon{
+                font-size: 22px;
+                width: 2rem;
+                min-width: 2ren;
+                margin: 0 0.5rem;
+                text-align: center;
+            }
+
+            .sidenav-link-text{
+                margin-left: 0.5rem;
+            }
+        }
+    }
+
+    .sidenav-nav-item:hover{
+        .sidenav-nav-link{
+            background-color: black;
+            color:#fff;
+            border-radius: 8px;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Thunder icon styling */
+/* .thunder-icon {
+    width: 14.86px;
+    height: 14.59px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon fill="%23ffffff" points="256 0 100 288 216 288 152 512 412 192 288 192 352 0"/></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: filter 0.3s ease;
+} */
+
+.active{
+    background-color: #280d0d;
+
+    .sidenav-link-icon
+    {
+        color:#fff
+    }
+    .sidenav-link-text{
+        color:#fff
+    }
+}
+
+.getProBox {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+  }

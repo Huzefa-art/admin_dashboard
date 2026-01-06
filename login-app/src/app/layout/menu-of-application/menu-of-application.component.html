@@ -1,0 +1,780 @@
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="sidebar-header px-4 pb-3">
+    <span class="logo ">
+      <div class="d-flex align-items-center pt-3 gap-3 flex-wrap mb-3 ps-4">
+        <!-- <img *ngIf="!mod" width="138.06px" height="63px" src="../../assets/images/AiDGMS_Sidebar2.png"> -->
+        <!-- <img *ngIf="goTelecom" width="138.06px" height="63px" src="../../assets/images/Go-telecome.png"> -->
+        <img *ngIf="goTelecom" routerLink="/app/home" style="cursor: pointer;" width="138.06px" height="63px" src="../../assets/images/GoLogoTelecom.png">
+        <img *ngIf="mod" routerLink="/app/home" style="cursor: pointer;" width="193px" height="54.51px" src="../../assets/images/ministryOfDefenseLogo.png">
+        <img *ngIf="fusionai" routerLink="/app/home" style="cursor: pointer;" width="193px" height="54.51px" src="../../assets/images/Fusion-ai.png">
+        <img *ngIf="inseyab" routerLink="/app/home" style="cursor: pointer;" [src]="this.logoMenu" alt="Logo" />
+         <!-- <img *ngIf="mod" width="193px" height="54.51px" src="../../assets/images/Fusion-ai.png">     -->
+        <!-- <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5H24.5C27.8137 0.5 30.5 3.18629 30.5 6.5V24.5C30.5 27.8137 27.8137 30.5 24.5 30.5H6.5C3.18629 30.5 0.5 27.8137 0.5 24.5V6.5Z"
+                        fill="#212121" />
+                    <path
+                        d="M14.8371 17.0159L10.2975 16.9401C9.97843 16.9368 9.75646 16.7949 9.63156 16.5145C9.50665 16.2342 9.54694 15.9793 9.75243 15.75L16.7454 7.83027C16.8021 7.76321 16.8731 7.70995 16.9582 7.67049C17.0433 7.63103 17.1615 7.6034 17.3128 7.58759C17.565 7.56123 17.768 7.64393 17.9219 7.83569C18.0758 8.02746 18.1011 8.23877 17.9977 8.46964L15.9712 13.2295L20.5108 13.3053C20.8299 13.3086 21.0518 13.4505 21.1767 13.7309C21.3016 14.0112 21.2613 14.2661 21.0559 14.4954L14.0629 22.4151C14.0062 22.4822 13.9352 22.5354 13.8501 22.5749C13.765 22.6144 13.6468 22.642 13.4955 22.6578C13.2433 22.6842 13.0402 22.6015 12.8864 22.4097C12.7325 22.2179 12.7072 22.0066 12.8105 21.7758L14.8371 17.0159Z"
+                        fill="white" />
+                </svg> -->
+
+        <!-- <img
+                    src="../../../assets/images/ejad_logo_1.png"
+                    alt="AI Chat Logo"
+                    width="50"
+
+                    style="object-fit: cover; display: inline-block;"
+                    /> -->
+
+        <!-- <span style="text-align: left;" class="logo-head">Document Management System</span> -->
+        <!-- <span class="free-label">FREE</span> -->
+
+      </div>
+
+    </span>
+    <hr class="mx-2" style="color:white">
+
+  </div>
+
+
+  <!--
+        <div class="vector-line"></div> -->
+
+  <ul class="sidebar-menu px-4">
+
+    <!-- dashboard list button -->
+    <li *ngIf="this.Dashboard" (click)="routeToDashboard($event)" [ngClass]="{'active': dashboardDocument}"
+      class="project-button d-flex gap-2">
+      <span>
+        <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7 13.2663V2.73301C7 1.73301 6.57333 1.33301 5.51333 1.33301H2.82C1.76 1.33301 1.33333 1.73301 1.33333 2.73301V13.2663C1.33333 14.2663 1.76 14.6663 2.82 14.6663H5.51333C6.57333 14.6663 7 14.2663 7 13.2663Z"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M14.6667 5.67967V2.65301C14.6667 1.71301 14.24 1.33301 13.18 1.33301H10.4867C9.42667 1.33301 9 1.71301 9 2.65301V5.67301C9 6.61967 9.42667 6.99301 10.4867 6.99301H13.18C14.24 6.99967 14.6667 6.61967 14.6667 5.67967Z"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M14.6667 13.18V10.4867C14.6667 9.42667 14.24 9 13.18 9H10.4867C9.42667 9 9 9.42667 9 10.4867V13.18C9 14.24 9.42667 14.6667 10.4867 14.6667H13.18C14.24 14.6667 14.6667 14.24 14.6667 13.18Z"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+      </span>
+      <span class="d-flex align-items-center w-100 ms-md-1">
+        Dashboard
+      </span>
+    </li>
+
+
+
+    <!-- <ng-container *ngIf="selectedDocumentId; else documentList">
+            <li class="document-dropdown">
+              <span  class="row w-100 ms-md-1 selected-document-title">Documents</span>
+              <ul [ngClass]="{'dropdown': true, 'open': expandedDocumentId === selectedDocumentId}">
+                <div (click)="toggleDocument(selectedDocumentId); $event.stopPropagation()" [class.bg-active]="activeDocumentId === selectedDocumentId">
+                  <span>{{ getDocumentTitleById(selectedDocumentId) }}</span>
+                </div>
+                <li *ngFor="let section of headingsMap[selectedDocumentId]">
+                  <span class="bullet">•</span>
+                  <span (click)="onHeadingClick(selectedDocumentId, section.id, $event)">{{ section.heading }}</span>
+                </li>
+              </ul>
+              <button (click)="clearSelectedDocument()">Back to Documents</button>
+            </li>
+          </ng-container>
+
+          <ng-template #documentList>
+            <li (click)="toggleDocuments($event)" [ngClass]="{'active': documentsOpen}" class="document-dropdown">
+              <span class="row w-100 ms-md-1">Documents</span>
+              <ul [ngClass]="{'dropdown': true, 'open': documentsOpen}">
+                <li *ngFor="let document of documentsList" [class.active]="expandedDocumentId === document.id">
+                  <div (click)="toggleDocument(document.id); $event.stopPropagation()">{{ document.title }}</div>
+                </li>
+              </ul>
+            </li>
+          </ng-template> -->
+
+    <!-- Parent dropdown for Documents -->
+    <!-- <li (click)="toggleDocuments()" [ngClass]="{'active': documentsOpen}" class="document-dropdown">
+                <span class="row w-100 ms-md-1"> Documents</span>
+                <ul [ngClass]="{'dropdown': true, 'open': documentsOpen}">
+                    <li *ngFor="let document of documentsList" [class.active]="expandedDocumentId === document.id">
+                        <div (click)="toggleDocument(document.id); $event.stopPropagation()"
+                            [class.bg-active]="activeDocumentId === document.id">
+                            {{ document.title }}
+                        </div>
+                        <ul [ngClass]="{'dropdown': true, 'open': expandedDocumentId === document.id}">
+                            <li *ngFor="let section of headingsMap[document.id]"
+                                (click)="onHeadingClick(document.id, section.id); $event.stopPropagation()">
+                                <span class="bullet">•</span> {{ section.heading }}
+                                <ul *ngIf="section.subsections && section.subsections.length > 0"
+                                    [ngClass]="{'dropdown': true, 'open': expandedSectionId  === section.id}">
+                                    <li *ngFor="let subsection of section.subsections"
+                                        (click)="onSubsectionClick(document.id, section.id, subsection.id); $event.stopPropagation()">
+                                        <span class="bullet">–</span> {{ subsection.title }}
+                                        <ul *ngIf="subsection.child_subsections && subsection.child_subsections.length > 0"
+                                            [ngClass]="{'dropdown': true, 'open': expandedSubSectionId  === subsection.id}">
+                                            <li *ngFor="let child of subsection.child_subsections"
+                                                (click)="onChildSubsectionClick(document.id, section.id, subsection.id,child.id); $event.stopPropagation()">
+                                                <span class="bullet">∘</span> {{ child.title }}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li> -->
+
+    <!-- templates button -->
+    <!-- <li (click)="toggleTemplates($event)" [ngClass]="{'active': templatesOpen}" class="manageUsers-dropdown">
+              <span class="row w-100 ms-md-1"> Templates</span>
+
+              <ul [ngClass]="{'dropdown': true, 'open': templatesOpen}">
+
+                 <li
+                  *ngFor="let option of templateOptions"
+                  [ngClass]="{'active': activeTemplate === option}"
+                  (click)="setActiveTemplate(option); $event.stopPropagation()">
+                  {{ option }}
+                </li>
+              </ul>
+            </li> -->
+
+    <li *ngIf="this.Templates" (click)="toggleTemplates($event)" [ngClass]="{'active': templatesOpen}"
+      class="manageUsers-dropdown ">
+
+      <span class="d-flex justify-content-between align-items-center w-100">
+        <div class="items d-flex gap-2">
+          <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.99967 11.3333V12.92C7.99967 14.1667 7.49967 14.6667 6.24634 14.6667H3.07967C1.83301 14.6667 1.33301 14.1667 1.33301 12.92V9.75333C1.33301 8.5 1.83301 8 3.07967 8H4.66634V9.58C4.66634 10.8333 5.16634 11.3333 6.41301 11.3333H7.99967Z"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M11.3337 8.00033V9.58033C11.3337 10.8337 10.8337 11.3337 9.58033 11.3337H6.41366C5.16699 11.3337 4.66699 10.8337 4.66699 9.58033V6.41366C4.66699 5.16699 5.16699 4.66699 6.41366 4.66699H8.00033V6.24699C8.00033 7.50033 8.50033 8.00033 9.74699 8.00033H11.3337Z"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M14.6667 3.07967V6.24634C14.6667 7.49967 14.1667 7.99967 12.9133 7.99967H9.74667C8.5 7.99967 8 7.49967 8 6.24634V3.07967C8 1.83301 8.5 1.33301 9.74667 1.33301H12.9133C14.1667 1.33301 14.6667 1.83301 14.6667 3.07967Z"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Templates
+        </div>
+
+        <i class="fa fa-angle-down ms-2"></i>
+      </span>
+      <ul [ngClass]="{'dropdown': true, 'open': templatesOpen}">
+        <li [class.active]="uploadTemplateOpen">
+
+          <div
+             (click)="navigateToTemplate(true); $event.stopPropagation()"
+            [class.bg-active]="uploadTemplateOpen && isDocumentTemplate">
+            <div class="d-flex">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="fas fa-pen me-2" ></i> By Document
+
+
+                <!-- <abbr title="Cascading Style Sheets">i</abbr> -->
+
+                <!-- <app-tooltip text="My tooltip message">
+                  <i class="tooltip-icon">i</i>
+                </app-tooltip> -->
+
+                <!-- <i appTooltip="Adding Function for Levels" class="tooltip-icon">i</i> -->
+
+              </span>
+              <span class="tooltip-icon" title="Create by uloading a document">i
+            </span>
+            </div>
+          </div>
+
+            <!-- <div class="sidebar-popup">
+    Create by uploading a document
+  </div> -->
+
+          <div   (click)="navigateToTemplate(false); $event.stopPropagation()"
+            [class.bg-active]="uploadTemplateOpen && !isDocumentTemplate">
+            <div class="d-flex">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="fas fa-pen me-2"></i> By Prompt
+                  <!-- <span class="tooltip-icon">i
+      <span class="tooltip-text">Create using a text prompt</span>
+    </span> -->
+  </span>
+  <span class="tooltip-icon" title="Create using a text prompt">i</span>
+            </div>
+
+          </div>
+
+          <!-- <div (click)="useInDocument(14); $event.stopPropagation()"
+                       [class.bg-active]="newPageDocument">
+                       <span class="d-flex align-items-center w-100 ms-md-1">
+                         <i class="fa fa-tags me-2"></i> By Tags
+                     </span>
+                      </div> -->
+
+
+
+          <div (click)="openViewTemplate($event); $event.stopPropagation()" [class.bg-active]="viewTemplateOpen">
+            <span class="d-flex align-items-center w-100 ms-md-1">
+              <i class="far fa-file-alt me-2"></i> view Templates
+            </span>
+          </div>
+
+
+        </li>
+      </ul>
+    </li>
+
+
+    <!-- templates list button -->
+    <!-- <li (click)="toggleTemplatesList($event)" [ngClass]="{'active': templatesListOpen}" class="template-dropdown">
+              <span class="row w-100 ms-md-1"> Templates List</span>
+              <ul [ngClass]="{'dropdown': true, 'open': templatesListOpen}">
+
+                 <li
+                  *ngFor="let templateName of templatesList"
+                  [ngClass]="{'active': activeTemplate === templateName}">
+                  {{ templateName.name }}
+                </li>
+              </ul>
+            </li> -->
+
+    <!-- <ng-container *ngIf="selectedTemplateId; else templateList">
+              <li class="document-dropdown">
+                <span  class="row w-100 ms-md-1 selected-document-title">Templates List</span>
+                <ul [ngClass]="{'dropdown': true, 'open': expandedTemplateId === selectedTemplateId}">
+                  <div (click)="toggleTemplate(selectedTemplateId); $event.stopPropagation()" [class.bg-active]="activeTemplateId === selectedTemplateId">
+                    <span>{{ getTemplateTitleById(selectedTemplateId) }}</span>
+                  </div>
+                  <li *ngFor="let section of templatesNamesMap[selectedTemplateId]">
+                    <span class="bullet">•</span>
+                    <span (click)="onTemplatesHeadingClick(selectedTemplateId, section.id, $event)">{{ section.heading }}</span>
+                  </li>
+                </ul>
+                <button (click)="clearSelectedTemplate()">Back to Templates</button>
+              </li>
+            </ng-container>
+
+            <ng-template #templateList>
+              <li (click)="toggleTemplatesList($event)" [ngClass]="{'active': templatesListOpen}" class="document-dropdown">
+                <span class="row w-100 ms-md-1">Templates List</span>
+                <ul [ngClass]="{'dropdown': true, 'open': templatesListOpen}">
+                  <li *ngFor="let templateName of templatesList" [class.active]="expandedDocumentId === templateName.id">
+                    <div (click)="toggleTemplate(templateName.id); $event.stopPropagation()">{{ templateName.name }}</div>
+                  </li>
+                </ul>
+              </li>
+            </ng-template> -->
+
+
+    <!-- <button (click)="openProject($event)" [ngClass]="{'active': templatesListOpen}" class="project-button">Porjects</button> -->
+
+    <li *ngIf="this.GenerateDocUsingAI" (click)="goToNewPageFromMenu()" [ngClass]="{'active': newPageDocument}"
+      class="project-button">
+      <span class="d-flex w-100  gap-2">
+        <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_88_7754)">
+            <g clip-path="url(#clip1_88_7754)">
+              <path
+                d="M12.3486 8.06618L9.1246 6.87525L7.9374 3.64858C7.86727 3.45731 7.7401 3.29219 7.57308 3.17554C7.40606 3.05889 7.20726 2.99634 7.00354 2.99634C6.79981 2.99634 6.60101 3.05889 6.43399 3.17554C6.26697 3.29219 6.1398 3.45731 6.06967 3.64858L4.875 6.87525L1.64834 8.06245C1.45707 8.13258 1.29195 8.25975 1.1753 8.42677C1.05865 8.59379 0.996094 8.79259 0.996094 8.99631C0.996094 9.20003 1.05865 9.39884 1.1753 9.56586C1.29195 9.73288 1.45707 9.86005 1.64834 9.93018L4.875 11.1248L6.0622 14.3515C6.13233 14.5428 6.25951 14.7079 6.42652 14.8246C6.59354 14.9412 6.79235 15.0038 6.99607 15.0038C7.19979 15.0038 7.3986 14.9412 7.56561 14.8246C7.73263 14.7079 7.8598 14.5428 7.92994 14.3515L9.1246 11.1248L12.3513 9.93765C12.5425 9.86751 12.7077 9.74034 12.8243 9.57333C12.941 9.40631 13.0035 9.2075 13.0035 9.00378C13.0035 8.80006 12.941 8.60125 12.8243 8.43424C12.7077 8.26722 12.5425 8.14005 12.3513 8.06991L12.3486 8.06618ZM8.56194 10.2635C8.49417 10.2886 8.43267 10.3282 8.38166 10.3794C8.33065 10.4305 8.29135 10.4922 8.26647 10.56L7.00034 13.9904L5.73633 10.5627C5.71128 10.4942 5.67158 10.432 5.61999 10.3804C5.56841 10.3288 5.50618 10.2891 5.43767 10.264L2.00994 9.00005L5.43767 7.73605C5.50618 7.71099 5.56841 7.67129 5.61999 7.6197C5.67158 7.56812 5.71128 7.5059 5.73633 7.43738L7.00034 4.00965L8.26434 7.43738C8.28927 7.50529 8.32865 7.56697 8.37976 7.61817C8.43086 7.66936 8.49247 7.70886 8.56034 7.73391L11.9907 9.00005L8.563 10.264L8.56194 10.2635ZM8.9998 2.50031C8.9998 2.36764 9.05251 2.24039 9.14633 2.14657C9.24014 2.05275 9.36739 2.00005 9.50007 2.00005H10.5001V1.00005C10.5043 0.870266 10.5588 0.747217 10.6521 0.65691C10.7455 0.566603 10.8702 0.516113 11.0001 0.516113C11.1299 0.516113 11.2547 0.566603 11.348 0.65691C11.4413 0.747217 11.4958 0.870266 11.5001 1.00005V2.00005H12.5001C12.6327 2.00005 12.7599 2.05273 12.8536 2.14649C12.9474 2.24026 13.0001 2.36744 13.0001 2.50005C13.0001 2.63266 12.9474 2.75983 12.8536 2.8536C12.7599 2.94737 12.6327 3.00005 12.5001 3.00005H11.5001V4.00005C11.4958 4.12983 11.4413 4.25288 11.348 4.34319C11.2547 4.43349 11.1299 4.48398 11.0001 4.48398C10.8702 4.48398 10.7455 4.43349 10.6521 4.34319C10.5588 4.25288 10.5043 4.12983 10.5001 4.00005V3.00005H9.50007C9.43435 3.00012 9.36927 2.98723 9.30854 2.96211C9.24782 2.93699 9.19264 2.90015 9.14617 2.85368C9.0997 2.80721 9.06285 2.75203 9.03774 2.69131C9.01262 2.63058 8.99973 2.5655 8.9998 2.49978V2.50031ZM15.5001 5.50031C15.4999 5.6329 15.4472 5.76001 15.3534 5.85371C15.2596 5.94741 15.1324 6.00005 14.9998 6.00005H14.4995V6.50031C14.4953 6.6301 14.4408 6.75314 14.3475 6.84345C14.2541 6.93376 14.1294 6.98425 13.9995 6.98425C13.8697 6.98425 13.7449 6.93376 13.6516 6.84345C13.5583 6.75314 13.5038 6.6301 13.4995 6.50031V6.00005H12.9998C12.87 5.99581 12.747 5.94127 12.6567 5.84797C12.5664 5.75466 12.5159 5.6299 12.5159 5.50005C12.5159 5.3702 12.5664 5.24543 12.6567 5.15213C12.747 5.05882 12.87 5.00429 12.9998 5.00005H13.5001V4.49978C13.5043 4.37 13.5588 4.24695 13.6521 4.15664C13.7455 4.06634 13.8702 4.01585 14.0001 4.01585C14.1299 4.01585 14.2547 4.06634 14.348 4.15664C14.4413 4.24695 14.4958 4.37 14.5001 4.49978V5.00005H14.9998C15.0655 4.99998 15.1306 5.01287 15.1913 5.03798C15.2521 5.0631 15.3072 5.09995 15.3537 5.14642C15.4002 5.19288 15.437 5.24806 15.4621 5.30879C15.4872 5.36951 15.5001 5.4346 15.5001 5.50031Z"
+                fill="white" />
+            </g>
+          </g>
+          <defs>
+            <clipPath id="clip0_88_7754">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+            <clipPath id="clip1_88_7754">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        Generate Doc Using AI
+      </span>
+    </li>
+
+    <li *ngIf="this.GenerateProposalUsingAI" (click)="routeToProposal($event); $event.stopPropagation()" [ngClass]="{'active': proposalRFPDocument}"
+      class="project-button">
+      <span class="d-flex w-100  gap-2">
+        <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_88_7754)">
+            <g clip-path="url(#clip1_88_7754)">
+              <path
+                d="M12.3486 8.06618L9.1246 6.87525L7.9374 3.64858C7.86727 3.45731 7.7401 3.29219 7.57308 3.17554C7.40606 3.05889 7.20726 2.99634 7.00354 2.99634C6.79981 2.99634 6.60101 3.05889 6.43399 3.17554C6.26697 3.29219 6.1398 3.45731 6.06967 3.64858L4.875 6.87525L1.64834 8.06245C1.45707 8.13258 1.29195 8.25975 1.1753 8.42677C1.05865 8.59379 0.996094 8.79259 0.996094 8.99631C0.996094 9.20003 1.05865 9.39884 1.1753 9.56586C1.29195 9.73288 1.45707 9.86005 1.64834 9.93018L4.875 11.1248L6.0622 14.3515C6.13233 14.5428 6.25951 14.7079 6.42652 14.8246C6.59354 14.9412 6.79235 15.0038 6.99607 15.0038C7.19979 15.0038 7.3986 14.9412 7.56561 14.8246C7.73263 14.7079 7.8598 14.5428 7.92994 14.3515L9.1246 11.1248L12.3513 9.93765C12.5425 9.86751 12.7077 9.74034 12.8243 9.57333C12.941 9.40631 13.0035 9.2075 13.0035 9.00378C13.0035 8.80006 12.941 8.60125 12.8243 8.43424C12.7077 8.26722 12.5425 8.14005 12.3513 8.06991L12.3486 8.06618ZM8.56194 10.2635C8.49417 10.2886 8.43267 10.3282 8.38166 10.3794C8.33065 10.4305 8.29135 10.4922 8.26647 10.56L7.00034 13.9904L5.73633 10.5627C5.71128 10.4942 5.67158 10.432 5.61999 10.3804C5.56841 10.3288 5.50618 10.2891 5.43767 10.264L2.00994 9.00005L5.43767 7.73605C5.50618 7.71099 5.56841 7.67129 5.61999 7.6197C5.67158 7.56812 5.71128 7.5059 5.73633 7.43738L7.00034 4.00965L8.26434 7.43738C8.28927 7.50529 8.32865 7.56697 8.37976 7.61817C8.43086 7.66936 8.49247 7.70886 8.56034 7.73391L11.9907 9.00005L8.563 10.264L8.56194 10.2635ZM8.9998 2.50031C8.9998 2.36764 9.05251 2.24039 9.14633 2.14657C9.24014 2.05275 9.36739 2.00005 9.50007 2.00005H10.5001V1.00005C10.5043 0.870266 10.5588 0.747217 10.6521 0.65691C10.7455 0.566603 10.8702 0.516113 11.0001 0.516113C11.1299 0.516113 11.2547 0.566603 11.348 0.65691C11.4413 0.747217 11.4958 0.870266 11.5001 1.00005V2.00005H12.5001C12.6327 2.00005 12.7599 2.05273 12.8536 2.14649C12.9474 2.24026 13.0001 2.36744 13.0001 2.50005C13.0001 2.63266 12.9474 2.75983 12.8536 2.8536C12.7599 2.94737 12.6327 3.00005 12.5001 3.00005H11.5001V4.00005C11.4958 4.12983 11.4413 4.25288 11.348 4.34319C11.2547 4.43349 11.1299 4.48398 11.0001 4.48398C10.8702 4.48398 10.7455 4.43349 10.6521 4.34319C10.5588 4.25288 10.5043 4.12983 10.5001 4.00005V3.00005H9.50007C9.43435 3.00012 9.36927 2.98723 9.30854 2.96211C9.24782 2.93699 9.19264 2.90015 9.14617 2.85368C9.0997 2.80721 9.06285 2.75203 9.03774 2.69131C9.01262 2.63058 8.99973 2.5655 8.9998 2.49978V2.50031ZM15.5001 5.50031C15.4999 5.6329 15.4472 5.76001 15.3534 5.85371C15.2596 5.94741 15.1324 6.00005 14.9998 6.00005H14.4995V6.50031C14.4953 6.6301 14.4408 6.75314 14.3475 6.84345C14.2541 6.93376 14.1294 6.98425 13.9995 6.98425C13.8697 6.98425 13.7449 6.93376 13.6516 6.84345C13.5583 6.75314 13.5038 6.6301 13.4995 6.50031V6.00005H12.9998C12.87 5.99581 12.747 5.94127 12.6567 5.84797C12.5664 5.75466 12.5159 5.6299 12.5159 5.50005C12.5159 5.3702 12.5664 5.24543 12.6567 5.15213C12.747 5.05882 12.87 5.00429 12.9998 5.00005H13.5001V4.49978C13.5043 4.37 13.5588 4.24695 13.6521 4.15664C13.7455 4.06634 13.8702 4.01585 14.0001 4.01585C14.1299 4.01585 14.2547 4.06634 14.348 4.15664C14.4413 4.24695 14.4958 4.37 14.5001 4.49978V5.00005H14.9998C15.0655 4.99998 15.1306 5.01287 15.1913 5.03798C15.2521 5.0631 15.3072 5.09995 15.3537 5.14642C15.4002 5.19288 15.437 5.24806 15.4621 5.30879C15.4872 5.36951 15.5001 5.4346 15.5001 5.50031Z"
+                fill="white" />
+            </g>
+          </g>
+          <defs>
+            <clipPath id="clip0_88_7754">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+            <clipPath id="clip1_88_7754">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        Generate Proposal from RFP
+      </span>
+    </li>
+
+    <!-- project button -->
+    <li *ngIf="this.ManageDocumentsProjects" (click)="openProject($event)" [ngClass]="{'active': projectsOpen}"
+      class="project-button">
+      <span class="d-flex w-100 gap-2">
+        <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M14.4468 9.53331L14.1802 12.8666C14.0802 13.8866 14.0002 14.6666 12.1935 14.6666H3.80684C2.00017 14.6666 1.92017 13.8866 1.82017 12.8666L1.5535 9.53331C1.50017 8.97998 1.6735 8.46665 1.98684 8.07331C1.9935 8.06665 1.9935 8.06665 2.00017 8.05998C2.36684 7.61331 2.92017 7.33331 3.54017 7.33331H12.4602C13.0802 7.33331 13.6268 7.61331 13.9868 8.04665C13.9935 8.05331 14.0002 8.05998 14.0002 8.06665C14.3268 8.45998 14.5068 8.97331 14.4468 9.53331Z"
+            stroke-miterlimit="10" />
+          <path
+            d="M2.3335 7.62015V4.18682C2.3335 1.92015 2.90016 1.35349 5.16683 1.35349H6.0135C6.86016 1.35349 7.0535 1.60682 7.3735 2.03349L8.22016 3.16682C8.4335 3.44682 8.56016 3.62015 9.12683 3.62015H10.8268C13.0935 3.62015 13.6602 4.18682 13.6602 6.45349V7.64682"
+            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M6.28662 11.3333H9.71329" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+
+        Manage Documents in Projects</span>
+    </li>
+
+    <!-- ocr document list button -->
+    <li *ngIf="this.DocumentsRepository" (click)="openOCRDocList($event)" [ngClass]="{'active': ocrDocListOpen}"
+      class="project-button">
+      <span class="d-flex w-100 gap-2">
+        <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.00016 14.6667H4.66683C2.00016 14.6667 1.3335 14 1.3335 11.3333V4.66668C1.3335 2.00001 2.00016 1.33334 4.66683 1.33334H5.66683C6.66683 1.33334 6.88685 1.62668 7.26685 2.13335L8.26685 3.46668C8.52018 3.80002 8.66683 4.00001 9.3335 4.00001H11.3335C14.0002 4.00001 14.6668 4.66668 14.6668 7.33334V8.66668"
+            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M9.17354 12.2136C7.60687 12.3269 7.60687 14.5936 9.17354 14.7069H12.8802C13.3269 14.7069 13.7669 14.5402 14.0935 14.2402C15.1935 13.2802 14.6069 11.3602 13.1602 11.1802C12.6402 8.05358 8.12021 9.24024 9.18688 12.2202"
+            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <!-- <i class="far fa-file-alt me-2"></i> Documents -->Documents Repository
+      </span>
+    </li>
+
+
+
+    <!-- upload document button -->
+    <!-- <li (click)="openUploadDocument($event)" [ngClass]="{'active': uploadDocumentOpen}" class="uploadDocument-button">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="far fa-file-alt me-2"></i> Upload Document
+            </span>
+            </li> -->
+
+    <!-- <li (click)="routeToAddNewUser($event)" [ngClass]="{'active': addNewUserSpan}" class="project-button">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="far fa-file-alt me-2"></i> Add New User
+            </span>
+            </li> -->
+
+
+    <li *ngIf="this.AddtoRepository" (click)="toggleDocumentOpen($event)" [ngClass]="{'active': documentsOpen}"
+      class="manageUsers-dropdown">
+      <span class="d-flex justify-content-between align-items-center w-100">
+        <div class="items d-flex gap-2">
+          <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.00016 14.6667H4.66683C2.00016 14.6667 1.3335 14 1.3335 11.3333V4.66668C1.3335 2.00001 2.00016 1.33334 4.66683 1.33334H5.66683C6.66683 1.33334 6.88685 1.62668 7.26685 2.13335L8.26685 3.46668C8.52018 3.80002 8.66683 4.00001 9.3335 4.00001H11.3335C14.0002 4.00001 14.6668 4.66668 14.6668 7.33334V8.66668"
+              stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M9.17354 12.2136C7.60687 12.3269 7.60687 14.5936 9.17354 14.7069H12.8802C13.3269 14.7069 13.7669 14.5402 14.0935 14.2402C15.1935 13.2802 14.6069 11.3602 13.1602 11.1802C12.6402 8.05358 8.12021 9.24024 9.18688 12.2202"
+              stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          Add to Repository
+        </div>
+        <i class="fa fa-angle-down ms-2"></i>
+      </span>
+      <ul [ngClass]="{'dropdown': true, 'open': documentsOpen}">
+        <li [class.active]="uploadDocumentOpen">
+          <div (click)="openUploadDocument($event); $event.stopPropagation()" [class.bg-active]="uploadDocumentOpen">
+            <div class="d-flex">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="fas fa-file-arrow-up me-2"></i> Upload a Document
+
+      <!-- <span class="tooltip-icon">i
+      <span class="tooltip-text">Uploading single document </span>
+    </span> -->
+
+
+  </span>
+  <span class="tooltip-icon" title="Upload a single file">i</span>
+            </div>
+          </div>
+
+          <div (click)="openBulkUploadModal(); $event.stopPropagation()" [class.bg-active]="bulkUploadDocSpan">
+            <div class="d-flex">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="fas fa-copy me-2"></i> Bulk Upload
+          <!-- <span class="tooltip-icon">i
+      <span class="tooltip-text">Uploading documents</span>
+    </span> -->
+  </span>
+  <span class="tooltip-icon" title="Upload multiple files together">i</span>
+            </div>
+          </div>
+
+           <!-- <div (click)="openSimpleUploadModal(); $event.stopPropagation()" [class.bg-active]="simpleUploadDocSpan">
+            <span class="d-flex align-items-center w-100 ms-md-1">
+              <i class="fas fa-copy me-2"></i> Simple Upload
+            </span>
+          </div> -->
+
+        </li>
+      </ul>
+    </li>
+
+
+    <li *ngIf="ManageUsers" (click)="toggleManageUsers($event)" [ngClass]="{'active': manageUsersOpen}"
+      class="manageUsers-dropdown">
+      <span class="d-flex justify-content-between align-items-center w-100">
+        <div class="items d-flex gap-2">
+          <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.10671 7.24665C6.04004 7.23998 5.96004 7.23998 5.88671 7.24665C4.30004 7.19331 3.04004 5.89331 3.04004 4.29331C3.04004 2.65998 4.36004 1.33331 6.00004 1.33331C7.63337 1.33331 8.96004 2.65998 8.96004 4.29331C8.95337 5.89331 7.69337 7.19331 6.10671 7.24665Z"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M10.9402 2.66669C12.2335 2.66669 13.2735 3.71335 13.2735 5.00002C13.2735 6.26002 12.2735 7.28669 11.0268 7.33335C10.9735 7.32669 10.9135 7.32669 10.8535 7.33335"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M2.77348 9.70669C1.16014 10.7867 1.16014 12.5467 2.77348 13.62C4.60681 14.8467 7.61348 14.8467 9.44681 13.62C11.0601 12.54 11.0601 10.78 9.44681 9.70669C7.62014 8.48669 4.61348 8.48669 2.77348 9.70669Z"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M12.2266 13.3333C12.7066 13.2333 13.1599 13.04 13.5332 12.7533C14.5732 11.9733 14.5732 10.6866 13.5332 9.90665C13.1666 9.62665 12.7199 9.43998 12.2466 9.33331"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          Manage Users
+        </div>
+        <i class="fa fa-angle-down ms-2"></i>
+      </span>
+      <ul [ngClass]="{'dropdown': true, 'open': manageUsersOpen}">
+        <li [class.active]="addNewUserSpan">
+          <div (click)="routeToAddNewUser($event); $event.stopPropagation()" [class.bg-active]="addNewUserSpan">
+             <div class="d-flex">
+
+               <span class="d-flex align-items-center w-100 ms-md-1">
+                 <i class="fa fa-user me-2" aria-hidden="true"></i> Add New User
+                 <!-- <i class="fa fa-info-circle ms-2" aria-hidden="true" data-toggle="tooltip" data-placement="right"
+                   title="Create a new user account here">
+                 </i> -->
+
+
+                 <!-- <span class="tooltip-icon">i
+                   <span class="tooltip-text">Uploading single document </span>
+                 </span> -->
+
+               </span>
+               <span class="tooltip-icon" title="Add a new user account">i</span>
+             </div>
+          </div>
+
+          <div (click)="routeToViewUser($event); $event.stopPropagation()" [class.bg-active]="viewUserSpan">
+              <div class="d-flex">
+                <span class="d-flex align-items-center w-100 ms-md-1">
+                  <i class="fa fa-users me-1" aria-hidden="true"></i> View User
+
+                     <!-- <span class="tooltip-icon">i
+        <span class="tooltip-text">Uploading single document </span>
+      </span> -->
+
+
+    </span>
+    <span class="tooltip-icon" title="View and manage existing users">i</span>
+              </div>
+          </div>
+
+        </li>
+      </ul>
+    </li>
+
+    <!-- <li (click)="routeToMerger($event)" [ngClass]="{'active': mergerSpan}" class="uploadDocument-button">
+              <span class="d-flex align-items-center w-100 ms-md-1">
+                <i class="far fa-file-alt me-2"></i> Collaboration
+            </span>
+            </li> -->
+
+
+    <li *ngIf="AutoDetails" (click)="openAutoDetails($event)" [ngClass]="{'active': autoFillOpen}"
+      class="project-button">
+      <span class="d-flex align-items-center w-100 ms-md-1">
+       Auto Details
+      </span>
+    </li>
+   <!-- code pasted in local file updated later  -->
+
+
+       <li *ngIf="organizationStructure" (click)="toggleOrganizationStructure($event)"
+      [ngClass]="{'active': structureOpem}" class="manageUsers-dropdown">
+      <span class="d-flex justify-content-between align-items-center w-100">
+        <div class="items d-flex gap-2">
+          <svg class='menu-icon' width="16" height="16" viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4h12v8H2V4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 7h6M5 9h4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          Organization Structure
+        </div>
+        <i class="fa fa-angle-down ms-2"></i>
+      </span>
+
+      <!-- Dropdown list -->
+      <ul [ngClass]="{'dropdown': true, 'open': structureOpem}" (click)="$event.stopPropagation()">
+
+           <li *ngIf="AddFunctions" (click)="openFunctions($event)" [class.bg-active]="addFunctionsOpen">
+               <div class="d-flex">
+                 <span class="d-flex align-items-center w-100 ms-md-1">
+                    <i class="fas fa-plus me-2"></i> Add Functions
+                     <!-- <i appTooltip="Adding Function for Levels" class="tooltip-icon">i</i> -->
+           <!-- <div class="tooltip-container">
+         i
+         <span class="tooltip-text1">This is an info bubble</span>
+       </div> -->
+                 </span>
+                               <span class="tooltip-icon" title="Add organization functions">i
+       <!-- <span class="tooltip-text">Adding Function for Levels </span> -->
+       </span>
+              </div>
+
+        </li>
+
+           <li *ngIf="AddDepartments">
+          <div (click)="openDepartments($event)" [class.bg-active]="addDepartmentsOpen">
+                 <div class="d-flex">
+
+                   <span class="d-flex align-items-center w-100 ms-md-1">
+                     <i class="fas fa-plus me-2"></i> Add Departments
+
+                                                   <!-- <span class="tooltip-icon">i
+           <span class="tooltip-text">Adding Departments for Users </span>
+         </span> -->
+
+
+       </span>
+       <span class="tooltip-icon" title="Add departments">i</span>
+                 </div>
+          </div>
+        </li>
+
+            <li *ngIf="AddLevels">
+          <div (click)="openLevels($event)" [class.bg-active]="addLevelsOpen">
+                <div class="d-flex">
+                  <span class="d-flex align-items-center w-100 ms-md-1">
+                     <i class="fas fa-plus me-2"></i> Add Levels
+
+                                                                <!-- <span class="tooltip-icon">i
+          <span class="tooltip-text">Adding Levels for Users </span>
+        </span> -->
+
+
+      </span>
+      <span class="tooltip-icon" title="Define hierarchy levels">i</span>
+                </div>
+          </div>
+        </li>
+
+         <!-- <li *ngIf="AddFeatures">
+          <div (click)="openFeatures($event)" [class.bg-active]="addFeaturesOpen">
+               <div class="d-flex">
+                 <span class="d-flex align-items-center w-100 ms-md-1">
+                   <i class="fas fa-plus me-2"></i> Add Features
+
+                 <span class="tooltip-icon">i
+         <span class="tooltip-text">Adding Features of Product </span>
+       </span>
+
+
+
+     </span>
+     <span class="tooltip-icon" title="Assign features to roles">i</span>
+               </div>
+          </div>
+        </li> -->
+
+
+
+        <li *ngIf="AssignDepartments">
+          <div (click)="openAssignDepartments($event)" [class.bg-active]="assignDepartmentsOpen">
+             <div class="d-flex">
+                           <span class="d-flex align-items-center w-100 ms-md-1">
+                             <i class="fas fa-tasks me-2"></i> Assign Departments
+
+                                       <!-- <span class="tooltip-icon">i
+                   <span class="tooltip-text">Assigns dept to Users </span>
+                 </span> -->
+
+               </span>
+               <span class="tooltip-icon" title="Assign dept to Users">i</span>
+             </div>
+          </div>
+        </li>
+
+
+         <li *ngIf="AssignFeatures">
+          <div (click)="openAssignFeatures($event)" [class.bg-active]="assignFeaturesOpen">
+
+             <div class="d-flex">
+               <span class="d-flex align-items-center w-100 ms-md-1">
+                 <i class="fas fa-tasks me-2"></i> Assign Features
+
+                                         <!-- <span class="tooltip-icon">i
+       <span class="tooltip-text">Assigns features to Users </span>
+     </span> -->
+
+
+
+   </span>
+   <span class="tooltip-icon" title="Assign features to Users">i</span>
+             </div>
+          </div>
+        </li>
+
+         <li *ngIf="flowChartComponent">
+          <div (click)="openArchitecture($event)" [class.bg-active]="flowChartOpen">
+            <div class="d-flex">
+               <span class="d-flex align-items-center w-100 ms-md-1">
+              <i class="fas fa-tasks me-2"></i> Hierarchy
+                                              <!-- <span class="tooltip-icon">i
+    <span class="tooltip-text">Presentation </span>
+  </span> -->
+
+  <!-- <div class="tooltip-container">
+    i
+    <span class="tooltip-text1">This is an info bubble</span>
+  </div> -->
+</span>
+<span class="tooltip-icon" title="View overall organization design">i</span>
+            </div>
+
+          </div>
+        </li>
+
+
+      </ul>
+    </li>
+        <li *ngIf="documentTaggerButton" (click)="openDocumentTaggers($event)" [ngClass]="{'active': documentTagger}"
+      class="project-button">
+      <span class="d-flex align-items-center w-100 ms-md-1">
+      <i class="fa-regular fa-tags me-2"></i>Document Taggers
+      </span>
+    </li>
+
+  </ul>
+
+
+  <!-- <ul>
+        <li *ngFor="let document of documentsList">
+            <div (click)="toggleDocument(document.id)">
+                {{ document.title }}
+            </div>
+            <ul *ngIf="expandedDocumentId === document.id">
+                <li *ngFor="let section of headingsMap[document.id]" (click)="onHeadingClick(document.id, section.id)">
+                    {{ section.heading }}
+                </li>
+            </ul>
+        </li>
+    </ul> -->
+
+
+
+
+
+
+
+
+  <div class="sidebar-footer px-4 ">
+    <!-- <div class="pro-upgrade">
+            <img src="assets/images/promember.png" alt="">
+            <h4>Go unlimited with PRO</h4>
+            <p>Get your AI Saas Project to another level and start doing more with Horizon AI Boilerplate PRO!</p>
+            <button class="btn btn-pro">Get started with PRO</button>
+        </div> -->
+    <div class="user-profile mb-3">
+      <div class="d-flex  align-items-center gap-2">
+        <span class="avatar">
+          <a routerLink="profile">
+            {{final}}
+          </a></span>
+        <span class="user-name">{{ userName }}!</span>
+      </div>
+      <div class="logout-icon ms-auto">
+        <!-- <div (click)="logout()" class="log-out"><i class="fa fa-sign-out"></i></div> -->
+        <button class="log-out" (click)="logout()"><i class="fa fa-sign-out"></i></button>
+      </div>
+      <!-- <button class="settings-btn" (click)="toggleDropdown()" ><i class="fa-solid fa-arrow-right-from-bracket "></i></button> -->
+
+      <!-- <div *ngIf="isDropdownVisible" class="dropdownEngine">
+              <select
+                id="customDropdown"
+                [(ngModel)]="selectedOption"
+                (ngModelChange)="onOptionChange($event)"
+                class="dropdown-select"
+              >
+                <option value="" disabled hidden>Select an engine</option>
+                <option *ngFor="let option of options" [value]="option.value" [disabled]="!option.enabled">
+                  {{ option.label }}
+                </option>
+              </select>
+            </div> -->
+
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="isBulkUploadModalOpen">
+    <div class="modal-content">
+      <h3>Bulk Upload Documents</h3>
+      <div class="drop-zone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (click)="triggerFileUpload()">
+        <!-- <img src="/src/assets/images/upload-large.svg" alt="Upload Icon" class="upload-big-icon"> -->
+        <!-- <svg class="upload-big-icon" width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3V15M12 3L8 7M12 3L16 7M5 11C3.343 11 2 12.343 2 14V18C2 19.657 3.343 21 5 21H19C20.657 21 22 19.657 22 18V14C22 12.343 20.657 11 19 11H5Z"
+              stroke="#6200ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg> -->
+
+        <svg class="upload-big-icon" width="100" height="100" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradientStroke" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color: rgba(1, 103, 116, 0.95); stop-opacity: 1" />
+              <stop offset="100%" style="stop-color: rgba(1, 103, 116, 0.95); stop-opacity: 1" />
+            </linearGradient>
+          </defs>
+
+          <path
+            d="M12 3V15M12 3L8 7M12 3L16 7M5 11C3.343 11 2 12.343 2 14V18C2 19.657 3.343 21 5 21H19C20.657 21 22 19.657 22 18V14C22 12.343 20.657 11 19 11H5Z"
+            stroke="url(#gradientStroke)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+
+        <p>Drag & Drop files here or click to select</p>
+        <input #fileInput type="file" multiple (change)="onBulkFileSelected($event)" accept=".doc, .docx, .txt, .pdf"
+          style="display: none;">
+      </div>
+      <div *ngIf="bulkFiles.length > 0" class="file-list-container">
+        <ul>
+          <li *ngFor="let file of bulkFiles">{{ file.name }}</li>
+        </ul>
+      </div>
+      <button style="margin-top: 15px;" class="btn primary" (click)="uploadBulkFiles()">Submit Bulk Upload</button>
+      <button class="btn close" (click)="closeBulkUploadModal()">Close</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Main Content -->
+<!-- <div class="main-content">
+      <h1>Your Main Content Goes Here</h1>
+      <p>This is where your app content will be displayed.</p>
+    </div> -->

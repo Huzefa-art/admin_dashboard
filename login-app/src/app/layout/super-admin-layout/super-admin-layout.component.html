@@ -1,0 +1,28 @@
+<div class="container-fluid d-flex flex-column" style="overflow-x: hidden;">
+  <div class="row w-100 flex-grow-1">
+    <!-- Super Admin Sidebar -->
+   <nav
+  class="col-lg-2 px-0"
+  [ngClass]="{ 'd-none d-lg-block': !isSidebarVisible, 'd-block': isSidebarVisible }"
+><button class="btn btn-outline-light d-lg-none m-2" (click)="toggleSidebar()">
+  ☰ Menu
+</button>
+  <div class="sidebar min-vh-100 bg-dark text-white p-3">
+    <app-super-admin-menu></app-super-admin-menu>
+  </div>
+</nav>
+
+    <!-- Main Content -->
+    <main class="col-lg-10 px-3" style="    overflow-y: auto;
+    max-height: calc(100vh - 20px);
+">
+      <!-- Topbar -->
+      <app-super-admin-topbar></app-super-admin-topbar>
+
+      <!-- Routed Views -->
+      <div class="mt-3">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

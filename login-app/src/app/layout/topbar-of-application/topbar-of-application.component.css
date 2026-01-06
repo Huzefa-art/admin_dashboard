@@ -1,0 +1,261 @@
+/* .right-aligned {
+    display: flex;
+    align-items: center ;
+    gap: 9.37px;
+    margin-left: auto;
+    justify-content: end;
+} */
+
+.dot{
+    /* border-radius: 50%; */
+    border-radius: 9.75px;
+font-size: 15px;
+font-weight: 600;
+color: var(--text-color-white);
+background: var(--sidebarMatch);
+padding: 9.38px;
+}
+
+
+
+
+.upload-btn {
+  padding: 10px 20px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  background-color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.upload-btn:hover{
+   background: #ffffffb1;
+}
+
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    background: var(--gradient-bg);
+    color: var(--color-for-Text);
+    font-weight: bold;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .log-out {
+    width: 30px;
+    height: 30px;
+   background: var(--gradient-bg);
+  color: var(--color-for-Text);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .log-out:hover{
+    background: var(--gradient-bg-hover); /* Lighter shade for hover */
+    /* transform: translateY(-2px); */
+  }
+
+  .name {
+    font-weight: 600;
+    color: #2e2e2e;
+    font-size: 12px;
+  }
+
+
+  .form-group1 {
+  position: relative;
+  display: inline-block;
+  width: auto; /* Ensure it doesn't limit width */
+}
+
+.newPageButtons{
+  padding: 5px 2px !important;
+    gap: 12px !important;
+}
+
+.add-new-btn {
+     background: var(--addButtonColor);
+    color: var(--color-for-Text);
+    border: none;
+    padding: 9px 24px;
+    border-radius: 38px;
+    cursor: pointer;
+    /* position: fixed;
+    right: 20px; */
+    transition: all 300ms ease;
+}
+.add-new-btn:hover {
+  background-color: var(--gradient-bg-hover); /* Lighter shade for hover */
+  transform: translateY(-2px);
+  transition: all 300ms ease;
+}
+
+.add-new-only{
+    background: var(--addNewOnly);
+    color: var(--color-for-Text);
+    border: none;
+    padding: 9px 24px;
+    border-radius: 38px;
+    cursor: pointer;
+    /* position: fixed;
+    right: 20px; */
+    transition: all 300ms ease;
+}
+
+.add-new-only:hover {
+  background-color: var(--gradient-bg-hover); /* Lighter shade for hover */
+  transform: translateY(-2px);
+  transition: all 300ms ease;
+}
+
+
+.add-new-chat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--addButtonColor);
+  color: var(--color-for-Text);
+  padding: 9px 20px 9px 11px;
+  border-radius: 38px;
+  cursor: pointer;
+  transition: all 300ms ease;
+}
+
+.add-new-chat:hover {
+  background-color: var(--gradient-bg-hover); /* Lighter shade for hover */
+  transform: translateY(-2px);
+  transition: all 300ms ease;
+}
+
+.customDropdownClass{
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--tableHeader);
+    border-radius: 38px;
+}
+
+.customDropdownClass select {
+  background: transparent;
+  color: var(--engineTextColor);
+}
+
+
+.chat-dropdown-small {
+
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  outline: none; /* removes focus outline in most cases */
+  box-shadow: none; /* removes focus glow in some browsers */
+}
+
+.chat-dropdown-small:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+
+  .custom-dropdown-button {
+    width: 135px;
+    background-color: transparent !important;
+    color:var(--tableHeader) !important; /* Bootstrap primary color */
+    border: 1px solid var(--tableHeader);
+     border-radius: 38px;
+  }
+
+  .custom-dropdown-button:hover,
+.custom-dropdown-button:focus,
+.custom-dropdown-button:active,
+.custom-dropdown-button.show,
+.dropdown-item:focus {
+    background-color: transparent !important;
+    color: var(--tableHeader) !important;    
+  }
+
+  .custom-dropdown-button .arrow {
+    margin-left: 8px;
+  }
+  .profile-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  padding-right: 14px;
+  gap: 12px;
+  background-color: #fdfdfd;
+  max-width: 100%;
+  min-width: 180px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.userName-conatiner {
+  overflow: hidden;
+  min-width: 0;
+}
+
+.name,
+.designation {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.designation {
+  color: #a2a2a2;
+  font-size: 11px;
+}
+
+/* Dropdown responsiveness */
+.profile-dropdown {
+  width: 100%;
+  min-width: 180px;
+  max-width: 180px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Avatar Circle (optional) */
+.avatar-circle {
+  width: 30px;
+  height: 30px;
+  background: var(--gradient-bg);
+  color: var(--color-for-Text);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-label {
+  white-space: normal;
+  line-height: 1.1;
+}

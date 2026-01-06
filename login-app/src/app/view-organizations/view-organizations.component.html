@@ -1,0 +1,186 @@
+
+<div class="upload-container">
+
+  <h2 class="text-lg font-semibold mb-2">User Ogranizations List</h2>
+
+  <div class="filters-bar">
+    <div class="filters-left">
+      <!-- <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="searchUserFromList" (input)="filterUsers()" /> -->
+      <!-- <input type="date" class="form-control" [(ngModel)]="selectedDate" (change)="filterUsers()" /> -->
+    </div>
+    <!-- <button class="add-new-btn" (click)="routeToAddNewUser()">+ Add New</button> -->
+  </div>
+  <div class="table-content-scroll table-responsive">
+    <table class="border-0 table-borderless w-100">
+      <thead>
+        <tr class="rounded sticky-top">
+          <th scope="col" class="text-white  ">Name</th>
+          <th scope="col" class="text-white ">Email</th>
+          <th scope="col" class="text-white ">Designation</th>
+          <th scope="col" class="text-white ">Role</th>
+          <th scope="col" class="text-white ">Organization Name</th>
+          <th scope="col" class="text-white ">Title of Browser</th>
+          <th scope="col" class="text-white ">Sidebar color</th>
+          <th scope="col" class="text-white ">text color</th>
+          <th scope="col" class="text-white ">Base color</th>
+          <!-- <th scope="col" class="text-white ">Home Page</th>
+          <th scope="col" class="text-white ">Basket Image</th>
+          <th scope="col" class="text-white">Favicon</th>
+          <th scope="col" class="text-white">Logo</th> -->
+          <th scope="col" class="text-white">Status</th>
+          <!-- <th scope="col" class="text-center"><i class="fas fa-ellipsis-v" style="color: var(--gradient-bg);"></i></th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of usersList">
+          <!-- <td>{{ item.user.name  }}</td> -->
+
+          <td style="vertical-align: middle; text-align: center;">
+            <select *ngIf="item.isEditing" [(ngModel)]="item.name" class="form-select role-dropdown"
+              [disabled]="!item.isEditing">
+              <option disabled [selected]="!item.user.name">Change User</option>
+              <option *ngFor="let user of usersList" [value]="user.name"
+                [ngStyle]="{ 'padding-left.px': user.indent * 20 }">
+                {{ '—'.repeat(user.indent) }} {{ user.name }}
+              </option>
+            </select>
+            <span *ngIf="!item.isEditing">
+              {{ item.name | titlecase }}
+            </span>
+          </td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.designation }}</td>
+
+          <td>
+               <span *ngIf="!item.isEditing">
+              {{ item.role.name | titlecase }}
+            </span>
+          </td>
+          <td style="vertical-align: middle; text-align: center;">
+            <!-- <select *ngIf="item.isEditing" [(ngModel)]="item.department.name" class="form-select role-dropdown"
+              [disabled]="!item.isEditing">
+              <option disabled [selected]="!item.department.name">Change Department</option>
+              <option *ngFor="let dept of flattenedDepartments" [value]="dept.name"
+                [ngStyle]="{ 'padding-left.px': dept.indent * 20 }">
+                {{ '—'.repeat(dept.indent) }} {{ dept.name }}
+              </option>
+            </select> -->
+            <span *ngIf="!item.isEditing">
+              {{ item.organization.name | titlecase }}
+            </span>
+          </td>
+
+          <td style="vertical-align: middle; text-align: center;">
+            <!-- <select *ngIf="item.isEditing" [(ngModel)]="item.department.name" class="form-select role-dropdown"
+              [disabled]="!item.isEditing">
+              <option disabled [selected]="!item.department.name">Change Department</option>
+              <option *ngFor="let dept of flattenedDepartments" [value]="dept.name"
+                [ngStyle]="{ 'padding-left.px': dept.indent * 20 }">
+                {{ '—'.repeat(dept.indent) }} {{ dept.name }}
+              </option>
+            </select> -->
+            <span *ngIf="!item.isEditing">
+              {{ item.organization.title_of_browser | titlecase }}
+            </span>
+          </td>
+
+          <!-- <td>{{ item.level.name }}</td> -->
+
+
+          <td style="vertical-align: middle; text-align: center;">
+            <!-- <select *ngIf="item.isEditing" [(ngModel)]="item.level.name" class="form-select role-dropdown"
+              [disabled]="!item.isEditing">
+              <option disabled [selected]="!item.level.name">Change Level</option>
+              <option *ngFor="let level of levelsList" [value]="level.name">{{ level.name }}</option>
+            </select> -->
+            <span *ngIf="!item.isEditing">
+              {{ item.organization.sidebar_color | titlecase }}
+            </span>
+          </td>
+
+          <td>
+
+             <span *ngIf="!item.isEditing">
+              {{ item.organization.text_color | titlecase }}
+            </span>
+          </td>
+          <td>
+
+             <span *ngIf="!item.isEditing">
+              {{ item.organization.base_color | titlecase }}
+            </span>
+          </td>
+          <!-- <td>
+            <span *ngIf="!item.isEditing">
+            <a [href]="item.organization.home_page_banner" target="_blank" rel="noopener noreferrer">
+              <img [src]="item.organization.home_page_banner" alt="Home Page Banner" width="100" height="auto" />
+            </a>
+            </span>
+          </td>
+          <td>
+
+             <span *ngIf="!item.isEditing">
+              {{ item.organization.basket_image }}
+            </span>
+          </td>
+
+          <td>
+
+             <span *ngIf="!item.isEditing">
+              {{ item.organization.favicon }}
+            </span>
+          </td>
+          <td>
+
+             <span *ngIf="!item.isEditing">
+              {{ item.organization.logo }}
+            </span>
+          </td> -->
+
+          <td class="text-center align-middle">
+  <button class="btn btn-sm"
+          [ngClass]="item.verified ? 'btn-success' : 'btn-secondary'"
+          (click)="toggleStatus(item)">
+    {{ item.is_superuser ? 'Active' : 'Inactive' }}
+  </button>
+</td>
+
+
+          <!-- <td class="dropdown-container text-center align-middle">
+            <button *ngIf="!hideMainOption" class="more-options-btn" (click)="toggleDropdownOptions(item)">
+              <i class="fas fa-ellipsis-v" style="color: var(--tableHeader);"></i>
+            </button>
+            <div class="dropdown-menuCustom" *ngIf="item.isDropdownOpen">
+              <button class="dropdown-item" (click)="toggleEdit(item)">Edit</button>
+              <button class="dropdown-item" (click)="deleteUserAssigned(item.id)">Delete</button>
+            </div>
+            <div *ngIf="item.isEditing" class="d-flex gap-2 align-items-center">
+              <button class="action-btn save" (click)="toggleEdit(item)" title="Save">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+                  <circle cx="8" cy="8" r="8" fill="#9f9f9f" />
+                  <path fill="white"
+                  d="M12.03 6.97a.85.85 0 0 0-1.2-1.2L7.5 9.1 5.97 7.56a.85.85 0 1 0-1.2 1.2l2.03 2.03a.85.85 0 0 0 1.2 0l4.03-4.03z" />
+                </svg>
+              </button>
+              <button class="action-btn cancel" (click)="cancelEdit(item)" title="Cancel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+                  <circle cx="8" cy="8" r="8" fill="#9f9f9f" />
+                  <path fill="white" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1
+      .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0
+      1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+          </td> -->
+
+
+        </tr>
+
+        <tr *ngIf="usersList.length === 0">
+          <td colspan="10" class="text-center text-muted">No data available</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+
+
+<div   *ngIf="!isSuperAdmin" class="container-fluid min-vh-100 d-flex flex-column mainPageBroad" style="overflow-x: hidden;">
+    <div class="row w-100 flex-grow-1">
+        <!-- Sidebar -->
+        <!-- <div class="mobile-header d-md-none fixed-top">
+            <button class="hamburger" (click)="toggleSidebar()">
+               Icon for hamburger menu
+              <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div> -->
+          <div class="mobile-header d-block d-lg-none px-3 py-2 bg-light border-bottom">
+    <button class="hamburger btn" (click)="toggleSidebar()">
+      <svg width="30" height="30" fill="none" stroke="black">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h22M4 12h22M4 18h22" />
+      </svg>
+    </button>
+  </div>
+
+          <!-- <nav class="col-md-2 d-flex flex-column px-0" [class.active]="sidebarActive"> -->
+        <!-- <nav class="col-12 col-md-2 px-0 mb-2 mb-md-0" [class.d-none]="isMobile && !sidebarActive">
+
+            <div class="sidebar h-100">
+            <app-menu-of-application></app-menu-of-application>
+          </div>
+
+            Sidebar Menu
+
+          </nav> -->
+           <nav [ngClass]="{
+          'col-12': isMobile,
+        'd-none': isMobile && !sidebarActive,
+        'col-lg-2': !isMobile,
+        'd-lg-block': true
+        }" class="px-0">
+      <div class="sidebar h-100">
+        <app-menu-of-application></app-menu-of-application>
+      </div>
+    </nav>
+
+        <!-- Main Content -->
+        <main class="d-flex flex-column col-md-10 "
+          >
+
+          <app-topbar-of-application></app-topbar-of-application>
+
+            <div class="centered-content px-md-4">
+                <router-outlet></router-outlet>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- <app-bodyofNew></app-bodyofNew> -->

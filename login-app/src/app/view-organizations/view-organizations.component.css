@@ -1,0 +1,11 @@
+ .table-content-scroll {
+  height: calc(93vh - 120px);
+  overflow-y: auto;
+  border-radius: 6px;
+}
+
+th {
+  white-space: nowrap;
+  color: #ffff !important;
+  background: #000101 !important;
+}

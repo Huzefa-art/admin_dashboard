@@ -1,0 +1,94 @@
+<!-- <nav *ngIf="breadcrumbs.length" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item"
+          [ngClass]="{'active': last}">
+        <a *ngIf="!last; else lastBreadcrumb" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+        <ng-template #lastBreadcrumb>{{ breadcrumb.label }}</ng-template>
+      </li>
+    </ol>
+  </nav> -->
+
+
+<!-- <nav *ngIf="breadcrumbs.length" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item"
+          [ngClass]="{'active': last}">
+
+        <ng-container *ngIf="!last; else lastBreadcrumb">
+          <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+          <span class="separatorCrumb"> > </span>
+        </ng-container>
+        <ng-template #lastBreadcrumb>{{ breadcrumb.label }}</ng-template>
+      </li>
+    </ol>
+  </nav>
+   -->
+
+<!-- <nav *ngIf="breadcrumbs.length" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item"
+            [ngClass]="{'active': last}">
+            <ng-container *ngIf="last; else notLast">
+                <span class="separatorCrumb"> > </span> {{ breadcrumb.label }}
+            </ng-container>
+            <ng-template #notLast>
+                <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+                <span class="separatorCrumb"> > </span>
+            </ng-template>
+        </li>
+    </ol>
+</nav> -->
+
+
+<!-- <nav *ngIf="breadcrumbs.length" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last;let i = index" class="breadcrumb-item" [ngClass]="{'active': last}">
+      <ng-container *ngIf="last; else notLast">
+        <span *ngIf="breadcrumb.label !== 'Home'" >
+          <svg width="13" height="20"
+            viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.8 2.025L10.7813 0L0.800049 10L10.7813 20L12.8 17.975L4.8438 10L12.8 2.025Z" fill="#212121" />
+          </svg>
+        </span> <p> {{ breadcrumb.label }}</p>
+      </ng-container>
+      <ng-template #notLast>
+        <span *ngIf="breadcrumb.label !== 'Home'">
+          <svg width="13" height="20"
+          viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.8 2.025L10.7813 0L0.800049 10L10.7813 20L12.8 17.975L4.8438 10L12.8 2.025Z" fill="#212121" />
+        </svg>
+        </span>
+        <a *ngIf="!isBreadcrumbDisabled; else disabledLink" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+        <ng-template #disabledLink>
+          <span class="disabled-breadcrumb">{{ breadcrumb.label }}</span>
+        </ng-template>
+      </ng-template>
+    </li>
+  </ol>
+</nav> -->
+
+<nav *ngIf="breadcrumbs.length" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item" [ngClass]="{'active': last}">
+      <ng-container *ngIf="last; else notLast">
+        <span *ngIf="breadcrumb.label !== 'Home'" >
+          <svg width="8" height="15"
+            viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.8 2.025L10.7813 0L0.800049 10L10.7813 20L12.8 17.975L4.8438 10L12.8 2.025Z" fill="#212121" />
+          </svg>
+        </span>
+          <p>{{ breadcrumb.label }}</p>
+      </ng-container>
+      <ng-template #notLast>
+
+        <span *ngIf="breadcrumb.label !== 'Home'">
+          <svg width="8" height="15"
+          viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.8 2.025L10.7813 0L0.800049 10L10.7813 20L12.8 17.975L4.8438 10L12.8 2.025Z" fill="#212121" />
+        </svg>
+        </span>
+          <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+      </ng-template>
+    </li>
+  </ol>
+</nav>

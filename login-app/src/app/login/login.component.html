@@ -1,0 +1,213 @@
+<!--
+<div class="background_color">
+  <div class="container">
+    <div class="left-section">
+      <img width="225.06px" height="83.66px" src="../../assets/images/AiDGMS_Sidebar2.png">
+      <div style="max-width: 450px;"><br><br>
+        <h1 class="welcomeToDCMS" >Welcome Back!</h1><br>
+        <p class="textBelowWelcomeBack" >Glad to see you again. Log in to continue where you left off!</p>
+      </div>
+
+    </div>
+    <div class="right-section">
+      <div class="uppersection">
+
+        <div class="login_container_box pt-5 pb-5">
+          <div class="loginheadandpara">
+
+<br>
+            <span class="logintoyouracc">Login</span>
+                <span class="loginpara"></span>
+        </div>
+
+        <div class="formsection">
+            <div class="fields">
+                <span class="emailheading">Email address</span>
+                <input class="inputfieldsoflogin" type="text" [(ngModel)]="email_address" placeholder="Enter email address">
+                <input class="fieldsofLoginOCR" type="text" [(ngModel)]="email_address" placeholder="Enter email address" style="color: white;padding: 19.5px 20px;">
+                <span class="emailheading">Password</span>
+                <div class="password-wrapper">
+                    <input class="inputfieldofpasswordlogin"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    [(ngModel)]="passwordforlogin"
+                    placeholder="Enter password" style="color: white;">
+                   <i class="bi" [ngClass]="passwordVisible ? 'bi-eye-slash-fill' : 'bi-eye-fill'" (click)="togglePasswordVisibility()"></i>
+                </div>
+            </div>
+
+            <div class="account-options">
+              <span class="rememberpassword">Remember password</span>
+              <span class="newforgotpassword">Forgot Password?</span>
+          </div>
+
+            <div class="loginbuttonarea">
+                <button class="loginbutton d-flex align-items-center justify-content-center " (click)="loginToAiDoc()" [disabled]="loadingOfLogin">
+                  <ng-container *ngIf="loadingOfLogin; else buttonContent">
+                      <div class="loader"></div>
+                  </ng-container>
+                  <ng-template #buttonContent>Login</ng-template>
+              </button>
+
+            </div>
+            <div class="donthaveacc_below">
+                <span class="span_of_dont" (click)="routeToSignupScreen()">Don't have an account? Signup</span>
+            </div>
+        </div>
+        </div>
+
+
+    </div>
+
+    </div>
+  </div>
+</div> -->
+
+
+<div class="login-container">
+  <div *ngIf="!verification" class="login">
+    <div class="logo-container">
+      <!-- <img style="cursor: pointer;" src="../../assets/images/AIDGMS-Login.png" alt="Logo" /> -->
+      <!-- <img style="cursor: pointer;" src="assets/images/GoLogoTelecom.png" alt="Logo" /> -->
+      <h4 class="tagline" style="font-family: 'Poppins', sans-serif;">Document &amp; Content Management System.</h4>
+    </div>
+    <h2>Login</h2>
+    <div class="login-card card">
+      <form class="form" (ngSubmit)="loginToAiDoc()" #loginForm="ngForm">
+        <div class="d-flex flex-column gap-4">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-group">
+              <i class="fas fa-user"></i>
+              <input type="email" id="email" [(ngModel)]="email_address" name="email" placeholder="Username or email"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input [type]="passwordVisible ? 'text' : 'password'" id="password" placeholder="Password"
+                [(ngModel)]="passwordforlogin" name="password" required />
+              <i class="fas eye-icon" [ngClass]="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"
+                (click)="togglePasswordVisibility()"></i>
+            </div>
+          </div>
+
+          <div class="options">
+            <label><input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" /> Remember Me</label>
+            <a class="cursor-pointer" (click)="verification = true">Forgot Password?</a>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column mt-5 gap-3">
+          <button type="submit" class="login-btn" [disabled]="loadingOfLogin">
+            <ng-container *ngIf="loadingOfLogin; else buttonContent">
+              <div class="loading"></div>
+            </ng-container>
+            <ng-template #buttonContent>Login</ng-template>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="verification" class="changePass">
+    <h2 *ngIf="step === 'email'">Reset Password</h2>
+    <h2 *ngIf="step === 'verify'">Verify Your Code</h2>
+    <h2 *ngIf="step === 'reset'">Set New Password</h2>
+    <div class="login-card card">
+      <div class="form">
+        <div class="d-flex flex-column gap-4">
+
+          <!-- Step 1: Email Input -->
+          <div *ngIf="step === 'email'" class="form-group">
+            <label for="email">Enter your email to reset password</label>
+            <div class="form-group">
+              <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="email" [(ngModel)]="email" id="email" placeholder="Email" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: OTP Inputs -->
+          <div *ngIf="step === 'verify'" class="form-group">
+            <label class="verify-label text-center mx-2">
+              We’ve sent a code to <strong>{{ email }}</strong>. Please enter it below:
+            </label>
+
+            <div class="d-flex gap-2 justify-content-center mt-2">
+
+              <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="otpConfig"></ng-otp-input>
+
+            </div>
+
+          </div>
+          <!-- Step 3:  Reset Password-->
+          <div *ngIf="step === 'reset'">
+            <div class="form-group">
+              <label for="password">New password</label>
+              <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input [type]="passwordVisible ? 'text' : 'password'" id="password" placeholder="Password"
+                  [(ngModel)]="new_password" name="password" />
+                <i class="fas eye-icon" [ngClass]="passwordVisible ? 'fa-eye' : 'fa-eye-slash' "
+                  (click)="togglePasswordVisibility(1)"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Confirm new password</label>
+              <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input [type]="passwordVisibleConfirm ? 'text' : 'password'" id="password" placeholder="Password"
+                  [(ngModel)]="confirm_password" name="password" />
+                <i class="fas eye-icon" [ngClass]="passwordVisibleConfirm ? 'fa-eye' : 'fa-eye-slash' "
+                  (click)="togglePasswordVisibility(2)"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Unified Button -->
+        <div class="d-flex flex-column mt-3 gap-3">
+          <button class="login-btn" (click)="onSubmit()" [disabled]="loadingOfLogin">
+            <ng-container *ngIf="loadingOfLogin; else buttonText">
+              <div class="loading"></div>
+            </ng-container>
+            <ng-template #buttonText>
+              {{
+              step === 'email'
+              ? 'Send Code'
+              : step === 'verify'
+              ? 'Verify'
+              : 'Reset Password'
+              }}
+            </ng-template>
+          </button>
+        </div>
+        <p *ngIf="step === 'reset'" class="signup-text">
+          Remember it?
+          <a routerLink="/login" (click)="verification = false">Sign In</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-wrapper">
+    <div class="footer">
+      <div class="footer-left">
+        <span>Terms</span> •
+        <span>Privacy</span> •
+        <span>Docs</span> •
+        <span>Helps</span>
+      </div>
+      <div class="language">
+        <i class="fas fa-globe"></i> English ▼
+      </div>
+    </div>
+  </div>
+</div>

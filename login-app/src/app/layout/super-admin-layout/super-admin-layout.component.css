@@ -1,0 +1,19 @@
+.sidebar {
+  z-index: 1050;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.d-block {
+    transform: translateX(0);
+  }
+}
