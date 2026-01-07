@@ -54,11 +54,10 @@ class OrganizationSerializer(serializers.ModelSerializer):
     # Fields for automated user creation
     admin_email = serializers.EmailField(write_only=True, required=False)
     admin_password = serializers.CharField(write_only=True, required=False, style={'input_type': 'password'})
+    admin_name = serializers.CharField(write_only=True, required=False)
     base_username = serializers.CharField(write_only=True, required=False)
     platform_ids = serializers.ListField(
-        child=serializers.IntegerField(),
-        write_only=True,
-        required=False
+        child=serializers.IntegerField(), write_only=True, required=False
     )
 
     MAX_SIZE_MB = 2
@@ -85,6 +84,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             'last_update_login',
             'admin_email',
             'admin_password',
+            'admin_name',
             'base_username',
             'platform_ids',
         ]
@@ -117,18 +117,22 @@ class OrganizationSerializer(serializers.ModelSerializer):
         return self.validate_image(value, 'basket_image')
 
     def create(self, validated_data):
-        """Create organization and associated users for each platform."""
+        # Extract the write-only fields for creating platform users
         admin_email = validated_data.pop('admin_email', None)
         admin_password = validated_data.pop('admin_password', None)
+        admin_name = validated_data.pop('admin_name', None)
         base_username = validated_data.pop('base_username', None)
         platform_ids = validated_data.pop('platform_ids', [])
 
+        # Create the organization
         organization = Organization.objects.create(**validated_data)
 
+        # Set platforms
         if platform_ids:
             platforms = Platform.objects.filter(id__in=platform_ids)
             organization.platforms.set(platforms)
 
+            # Create platform-specific users
             if admin_email and admin_password and base_username:
                 role = Roles.objects.get(name='admin')
                 for platform in platforms:
@@ -136,6 +140,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                     get_user_model().objects.create_user(
                         email=admin_email,
                         username=username,
+                        name=admin_name or base_username,
                         password=admin_password,
                         organization=organization,
                         role=role,

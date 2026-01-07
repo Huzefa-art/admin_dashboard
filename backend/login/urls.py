@@ -17,6 +17,7 @@ urlpatterns = [
     path('auth/reset-password/', views.ResetPasswordView.as_view(), name='reset-password'),
     path('only-admin-users/', views.AdminUsersListView.as_view(), name='only-admin-users'),
     path('platforms/', views.PlatformListView.as_view(), name='platforms'),
+    path('organizations/create/', views.CreateOrganizationView.as_view(), name='create-organization'),
     path('org/departments/', views.DepartmentListView.as_view(), name='department-list'),
     path('org/departments/<int:pk>/', views.DepartmentDetailView.as_view(), name='department-detail'),
     path('org/levels/', views.LevelListView.as_view(), name='level-list'),

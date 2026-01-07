@@ -23,6 +23,7 @@ from .serializers import (
     ResetPasswordSerializer,
     ResetPasswordSerializer,
     PlatformSerializer,
+    OrganizationSerializer,
     DepartmentSerializer,
     LevelSerializer,
     FunctionSerializer,
@@ -42,6 +43,16 @@ class CreateUserView(generics.CreateAPIView):
     """"Create a new user in the system."""
     serializer_class = UserSerializer
 
+class CreateOrganizationView(generics.CreateAPIView):
+    """Create a new organization with associated platform users."""
+    serializer_class = OrganizationSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+    
+    def perform_create(self, serializer):
+        """Set the created_by field to the current user."""
+        serializer.save(created_by=self.request.user.id)
+
 class UserVerificationView(APIView):
     serializer_class = None
 
@@ -60,40 +71,38 @@ class UserVerificationView(APIView):
                 {'detail': 'Invalid or already verified token'},
                 status=status.HTTP_400_BAD_REQUEST
                 )
-
 class CreateTokenView(ObtainAuthToken):
-    """Create a new auth token for user using Django ModelBackend only."""
+    """Create a new auth token and return platform URLs."""
 
     serializer_class = AuthTokenSerializer
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
     def post(self, request, *args, **kwargs):
-        email = request.data.get("email")
-        print(f"[CreateTokenView] Received login request for: {email}")
-
         serializer = self.serializer_class(
             data=request.data,
             context={'request': request}
         )
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        print(f"[CreateTokenView] ModelBackend returned: {user}")
 
         token, created = Token.objects.get_or_create(user=user)
-        print(f"[CreateTokenView] Token {'created' if created else 'retrieved'}: {token.key}")
 
         if not getattr(user, 'verified', True):
-            print(f"[CreateTokenView] User verified={user.verified}, denying access.")
             return Response({
-                'detail': _('Your email address is not verified. Please check your email.')
+                'detail': 'Your email address is not verified.'
             }, status=status.HTTP_401_UNAUTHORIZED)
 
-        print(f"[CreateTokenView] Login success. Returning token.")
+        # Collect platform URLs
+        platform = user.platform
+        redirect_url = platform.redirect_url if platform else None
+        
         return Response({
             'token': token.key,
             'user_id': user.id,
             'email': user.email,
             'verified': user.verified,
+            # 'default_redirect': default_redirect,
+            'redirect_url': redirect_url,
         })
 
 class ManageUserView(generics.RetrieveUpdateAPIView):

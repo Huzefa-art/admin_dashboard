@@ -2,7 +2,12 @@
 
 # Run migrations
 echo "Running migrations..."
+python manage.py makemigrations
 python manage.py migrate --noinput
+
+# Seed default roles
+echo "Seeding roles..."
+python manage.py seed_roles
 
 # Start Gunicorn
 echo "Starting Gunicorn..."
