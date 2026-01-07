@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
 
         this.loadingOfLogin = true;
 
-        // Remember Me (email only)
+        // Remember Me
         if (this.rememberMe) {
             localStorage.setItem('rememberedEmail', this.email_address);
             localStorage.setItem('rememberMe', 'true');
@@ -105,8 +105,6 @@ export class LoginComponent implements OnInit {
         this.loginService.loginApi(loginData).subscribe(
             (response: any) => {
                 const token = response.token;
-                const loginResponseEmail = (response.email || '').toLowerCase();
-
                 if (!token) {
                     this.loadingOfLogin = false;
                     Swal.fire({
@@ -119,44 +117,62 @@ export class LoginComponent implements OnInit {
                     return;
                 }
 
-                // Save initial session with info from login response
+                // Save minimal session
                 this.loginService.saveLoginSession(token, {
                     email: response.email,
                     id: response.user_id,
                     verified: response.verified
                 });
 
+                // Save redirect_url (preserve external origins; normalize SPA paths)
+                let redirectUrl = response.redirect_url || '/app/home';
+
+                try {
+                    const parsedUrl = new URL(redirectUrl);
+                    // If the URL is cross-origin, keep the full href so we can do a full redirect.
+                    if (parsedUrl.origin !== window.location.origin) {
+                        redirectUrl = parsedUrl.href;
+                    } else {
+                        // Same origin → use pathname as SPA route
+                        redirectUrl = parsedUrl.pathname;
+                    }
+                } catch (e) {
+                    // Not a full URL (likely a relative path or domain without scheme) — leave as-is for now
+                }
+
+                // Ensure SPA routes start with '/'
+                if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://') && !redirectUrl.startsWith('/')) {
+                    redirectUrl = '/' + redirectUrl;
+                }
+
+                localStorage.setItem('redirect_url', redirectUrl);
+                console.log('Final redirect path:', redirectUrl);
+
                 // Fetch full user info
                 this.loginService.GetUserInfo().subscribe(
                     (userInfo: any) => {
-                        console.log('User Info received:', userInfo);
                         this.loginService.saveLoginSession(token, userInfo);
 
-                        const userEmail = (userInfo.email || loginResponseEmail).toLowerCase();
-                        console.log('Checking redirection for email:', userEmail);
-
-                        if (userEmail === 'huzefa@consultant.com') {
-                            console.log('Redirecting to /admin/dashboard');
-                            this.router.navigate(['/admin/dashboard']).then(
-                                success => {
-                                    if (!success) console.error('Navigation to /admin/dashboard failed');
-                                },
-                                err => console.error('Navigation error:', err)
-                            );
-                        } else {
-                            console.log('No redirection rule for:', userEmail);
-                        }
-
-                        this.loadingOfLogin = false;
+                        // Navigate dynamically
+                        window.location.href = redirectUrl
+                        // this.router.navigate([redirectUrl]).then(
+                        //     success => {
+                        //         if (!success) console.error('Navigation failed to', redirectUrl);
+                        //         this.loadingOfLogin = false; // stop loader after navigation
+                        //     },
+                        //     err => {
+                        //         console.error('Navigation error:', err);
+                        //         this.loadingOfLogin = false;
+                        //     }
+                        // );
                     },
                     (error: any) => {
                         console.error('GetUserInfo error:', error);
-                        // Fallback: Redirect even if GetUserInfo fails if we have the email from login response
-                        if (loginResponseEmail === 'huzefa@consultant.com') {
-                            console.log('Fallback redirection for huzefa@consultant.com');
-                            this.router.navigate(['/admin/dashboard']);
-                        }
-                        this.loadingOfLogin = false;
+                        window.location.href = redirectUrl;
+
+                        // this.router.navigate([redirectUrl]).then(() => {
+                        //     this.loadingOfLogin = false;
+                        // });
                     }
                 );
             },
@@ -173,10 +189,108 @@ export class LoginComponent implements OnInit {
         );
     }
 
+    // loginToAiDoc(): void {
+    //     if (!this.email_address || !this.passwordforlogin) {
+    //         Swal.fire({
+    //             icon: 'warning',
+    //             title: 'Login Failed!',
+    //             text: 'Please enter correct credentials.',
+    //             timer: 2000,
+    //             showConfirmButton: false,
+    //         });
+    //         return;
+    //     }
+
+    //     this.loadingOfLogin = true;
+
+    //     // Remember Me (email only)
+    //     if (this.rememberMe) {
+    //         localStorage.setItem('rememberedEmail', this.email_address);
+    //         localStorage.setItem('rememberMe', 'true');
+    //     } else {
+    //         localStorage.removeItem('rememberedEmail');
+    //         localStorage.setItem('rememberMe', 'false');
+    //     }
+
+    //     const loginData = {
+    //         username: this.email_address,
+    //         password: this.passwordforlogin
+    //     };
+
+    //     this.loginService.loginApi(loginData).subscribe(
+    //         (response: any) => {
+    //             const token = response.token;
+    //             const loginResponseEmail = (response.email || '').toLowerCase();
+
+    //             if (!token) {
+    //                 this.loadingOfLogin = false;
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Login Failed!',
+    //                     text: 'Token not received.',
+    //                     timer: 2000,
+    //                     showConfirmButton: false,
+    //                 });
+    //                 return;
+    //             }
+
+    //             // Save initial session with info from login response
+    //             this.loginService.saveLoginSession(token, {
+    //                 email: response.email,
+    //                 id: response.user_id,
+    //                 verified: response.verified
+    //             });
+
+    //             // Fetch full user info
+    //             this.loginService.GetUserInfo().subscribe(
+    //                 (userInfo: any) => {
+    //                     console.log('User Info received:', userInfo);
+    //                     this.loginService.saveLoginSession(token, userInfo);
+
+    //                     const userEmail = (userInfo.email || loginResponseEmail).toLowerCase();
+    //                     console.log('Checking redirection for email:', userEmail);
+
+    //                     if (userEmail === 'huzefa@consultant.com') {
+    //                         console.log('Redirecting to /admin/dashboard');
+    //                         this.router.navigate(['/admin/dashboard']).then(
+    //                             success => {
+    //                                 if (!success) console.error('Navigation to /admin/dashboard failed');
+    //                             },
+    //                             err => console.error('Navigation error:', err)
+    //                         );
+    //                     } else {
+    //                         console.log('No redirection rule for:', userEmail);
+    //                     }
+
+    //                     this.loadingOfLogin = false;
+    //                 },
+    //                 (error: any) => {
+    //                     console.error('GetUserInfo error:', error);
+    //                     // Fallback: Redirect even if GetUserInfo fails if we have the email from login response
+    //                     if (loginResponseEmail === 'huzefa@consultant.com') {
+    //                         console.log('Fallback redirection for huzefa@consultant.com');
+    //                         this.router.navigate(['/admin/dashboard']);
+    //                     }
+    //                     this.loadingOfLogin = false;
+    //                 }
+    //             );
+    //         },
+    //         (error: any) => {
+    //             this.loadingOfLogin = false;
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Login Failed!',
+    //                 text: 'Unable to authenticate with your provided credentials.',
+    //                 timer: 2000,
+    //                 showConfirmButton: false,
+    //             });
+    //         }
+    //     );
+    // }
+
     changePassword() {
 
     }
-
 
     onOtpChange(otp: any) {
         this.otpCode = otp;

@@ -101,12 +101,21 @@ export class AddOrganizationComponent {
   }
 
   addUser() {
+    console.log('=== addUser() called ===');
+    console.log('Form values:', {
+      nameOfUser: this.nameOfUser,
+      organization: this.organization,
+      email: this.email,
+      baseUsername: this.baseUsername,
+      selectedPlatformIds: this.selectedPlatformIds
+    });
+
     const formData = new FormData();
 
     formData.append('admin_email', this.email);
     formData.append('admin_password', this.password);
     formData.append('base_username', this.baseUsername);
-    formData.append('name', this.nameOfUser);
+    formData.append('admin_name', this.nameOfUser);
 
     // Organization info
     formData.append('name', this.organization);
@@ -126,8 +135,10 @@ export class AddOrganizationComponent {
     if (this.faviconImage) formData.append('favicon', this.faviconImage);
     if (this.basketImage) formData.append('basket_image', this.basketImage);
 
+    console.log('Calling auth_service.addUserOrganization...');
     this.auth_service.addUserOrganization(formData).subscribe(
       (response: any) => {
+        console.log('Success response:', response);
         Swal.fire({
           icon: 'success',
           title: 'Organization and Users created successfully!',

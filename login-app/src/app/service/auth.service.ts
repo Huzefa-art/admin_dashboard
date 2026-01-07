@@ -171,7 +171,7 @@ export class AuthService {
 
   addUserOrganization(data: FormData) {
     const token = this.getToken();
-    return this.http.post<any>(this.signupUser, data, {
+    return this.http.post<any>(this.apiBaseUrlForAIDoc + 'user/organizations/create/', data, {
       headers: new HttpHeaders({
         Authorization: `Token ${token}`
       })
